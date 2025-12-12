@@ -2,6 +2,35 @@
 (() => {
   'use strict';
 
+  // Reliable taps for iOS Telegram: prefer pointerup over click
+  function bindTap(el, fn){
+    if (!el) return;
+    let pid = null, sx = 0, sy = 0, down = false;
+    el.addEventListener('pointerdown', (e) => {
+      if (e.button != null && e.button !== 0) return;
+      down = true;
+      pid = e.pointerId ?? null;
+      sx = e.clientX; sy = e.clientY;
+      e.preventDefault();
+    }, { passive:false });
+    el.addEventListener('pointerup', (e) => {
+      if (!down) return;
+      if (pid != null && e.pointerId != null && pid !== e.pointerId) return;
+      down = false; pid = null;
+      const dx = Math.abs(e.clientX - sx);
+      const dy = Math.abs(e.clientY - sy);
+      if (dx + dy <= 14){
+        e.preventDefault();
+        fn(e);
+      }
+    }, { passive:false });
+    el.addEventListener('pointercancel', () => { down = false; pid = null; }, { passive:true });
+    el.addEventListener('click', (e) => { e.preventDefault(); fn(e); });
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fn(e); }
+    });
+  }
+
   const { CFG, LINES, STORE_BASE_PRICES } = window.JV_DATA;
   const STATE = window.JV_STATE;
   const GAME = window.JV_GAME;
@@ -58,7 +87,7 @@
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab--active'));
     document.querySelector(`.tab[data-tab="${name}"]`)?.classList.add('tab--active');
   }
-  document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
+  document.querySelectorAll('.tab').forEach(btn => bindTap(btn, () => setTab(btn.dataset.tab)));
 
   // --- Store: redesigned to buy random unlocked patient / packs / 2x
   function spendCoins(amount){
@@ -207,10 +236,8 @@
     });
   }
 
-  elGiftFreeBtn?.addEventListener('click', () => doGift('free'));
-  elGiftPaidBtn?.addEventListener('click', () => doGift('paid'));
-
-
+  bindTap(elGiftFreeBtn, () => doGift('free'));
+  bindTap(elGiftPaidBtn, () => doGift('paid'));
   // Autosave
   setInterval(() => STATE.save(state), CFG.saveEveryMs);
   window.addEventListener('beforeunload', () => STATE.save(state));

@@ -175,6 +175,37 @@
       toastTimer = setTimeout(() => elToast.classList.remove('toast--show'), 1400);
     }
 
+    // Reliable taps for iOS Telegram: prefer pointerup over click
+    function bindTap(el, fn){
+      if (!el) return;
+      let pid = null, sx = 0, sy = 0, down = false;
+      el.addEventListener('pointerdown', (e) => {
+        if (e.button != null && e.button !== 0) return;
+        down = true;
+        pid = e.pointerId ?? null;
+        sx = e.clientX; sy = e.clientY;
+        // Prevent iOS from treating tap as selection/gesture
+        e.preventDefault();
+      }, { passive:false });
+      el.addEventListener('pointerup', (e) => {
+        if (!down) return;
+        if (pid != null && e.pointerId != null && pid !== e.pointerId) return;
+        down = false; pid = null;
+        const dx = Math.abs(e.clientX - sx);
+        const dy = Math.abs(e.clientY - sy);
+        if (dx + dy <= 14){
+          e.preventDefault();
+          fn(e);
+        }
+      }, { passive:false });
+      el.addEventListener('pointercancel', () => { down = false; pid = null; }, { passive:true });
+      // Keep click for desktop
+      el.addEventListener('click', (e) => { e.preventDefault(); fn(e); });
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fn(e); }
+      });
+    }
+
     // Simple popup queue
     const popupQueue = [];
     let popupOpen = false;
@@ -372,9 +403,8 @@ drag.ghost = makeGhost(animalEl);
 
 
     // Controls
-    elPlaceBtn?.addEventListener('click', () => handlers.onPlace({ toast, haptic, markPlace, queuePopup }));
-    elBonusBtn?.addEventListener('click', () => handlers.onBonus({ toast, haptic, queuePopup }));
-
+    bindTap(elPlaceBtn, () => handlers.onPlace({ toast, haptic, markPlace, queuePopup }));
+    bindTap(elBonusBtn, () => handlers.onBonus({ toast, haptic, queuePopup }));
     function render(){
       // Next patient
       const next = state.queue[0] || null;
