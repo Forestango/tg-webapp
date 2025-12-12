@@ -216,16 +216,22 @@
     }
     function isTrashFromPoint(x, y){
       if (!elTrash) return false;
-      const el = document.elementFromPoint(x, y);
-      return !!el?.closest?.('#trashDrop');
+      const els = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)];
+      for (const el of els){
+        if (el?.closest?.('#trashDrop')) return true;
+      }
+      return false;
     }
 
     function cellFromPoint(x, y){
-      const el = document.elementFromPoint(x, y);
-      const cell = el?.closest?.('.cell');
-      if (!cell) return -1;
-      const idx = Number(cell.dataset.idx);
-      return Number.isFinite(idx) ? idx : -1;
+      const els = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)];
+      for (const el of els){
+        const cell = el?.closest?.('.cell');
+        if (!cell) continue;
+        const idx = Number(cell.dataset.idx);
+        if (Number.isFinite(idx)) return idx;
+      }
+      return -1;
     }
     function makeGhost(animalEl){
       const g = animalEl.cloneNode(true);
@@ -264,7 +270,8 @@ drag.ghost = makeGhost(animalEl);
     }
 
     function onPointerMove(e){
-      if (!drag.active || drag.pointerId !== e.pointerId) return;
+      if (!drag.active) return;
+      if (drag.pointerId != null && e.pointerId != null && drag.pointerId !== e.pointerId) return;
       const dx = e.clientX - drag.startX;
       const dy = e.clientY - drag.startY;
       if (!drag.moved && (Math.abs(dx) + Math.abs(dy) > 6)) drag.moved = true;
