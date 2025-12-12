@@ -225,8 +225,9 @@
       elModal.classList.add('modal--hidden');
       openPopupNext();
     }
-    elModalOk?.addEventListener('click', closePopup);
-    elModal?.querySelector('.modal__backdrop')?.addEventListener('click', closePopup);
+    // iOS Telegram: do NOT rely on click (same bug as tabs/buttons)
+    bindTap(elModalOk, closePopup);
+    bindTap(elModal?.querySelector('.modal__backdrop'), closePopup);
 
     function queuePopup(p){
       popupQueue.push(p);
