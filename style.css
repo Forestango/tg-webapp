@@ -904,3 +904,30 @@ html, body{
 .btn, .tab, button{
   touch-action: manipulation;
 }
+
+/* --- Mobile animal card tweaks --- */
+@media (max-width: 420px){
+  .animal{
+    inset: 4px;
+    border-radius: 14px;
+    gap: 4px;
+  }
+  .animal__emoji{ font-size:22px; }
+  .animal__name{
+    font-size:10px;
+    line-height:1.1;
+    text-align:center;
+    max-width:100%;
+    padding:0 6px;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:normal;
+  }
+  .animal__rate{
+    font-size:10px;
+    padding:3px 7px;
+  }
+}
