@@ -328,13 +328,14 @@ drag.ghost = makeGhost(animalEl);
       const from = drag.fromIdx;
       const to = drag.hoverIdx;
       const overTrash = drag.hoverTrash;
+      const moved = drag.moved;
 
       // reset drag state
       drag.active=false; drag.fromIdx=-1; drag.hoverIdx=-1; drag.hoverTrash=false; drag.pointerId=null; drag.moved=false;
 
       showTrash(false);
 
-      if (apply && drag.moved){
+      if (apply && moved){
         if (overTrash){
           handlers.onSell?.(from, { toast, haptic, queuePopup });
           return;
