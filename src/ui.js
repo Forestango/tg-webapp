@@ -41,22 +41,7 @@
 
     const elPlaceBtn = document.getElementById('placeBtn');
 
-    
-    // DBG_PLACE_LISTENERS
-    if (elPlaceBtn){
-      const log = (name) => (e) => {
-        const top = document.elementsFromPoint(e.clientX||0, e.clientY||0).slice(0,4).map(x=>x.tagName.toLowerCase()+(x.id?('#'+x.id):'')).join(' > ');
-        dbg(`${name}: target=${e.target?.tagName?.toLowerCase()}#${e.target?.id||''} type=${e.type} pid=${e.pointerId ?? 'na'}\nTOP: ${top}\ndrag.active=${drag.active} moved=${drag.moved} pid=${drag.pointerId}`);
-      };
-      ['pointerdown','pointerup','pointercancel','touchstart','touchend','touchcancel','click'].forEach(ev=>{
-        elPlaceBtn.addEventListener(ev, log('PLACE'), { capture:true, passive:false });
-      });
-    }
-const elToast = document.getElementById('toast');
-    const elDebug = document.getElementById('debugTap');
-    function dbg(line){ if (!elDebug) return; elDebug.textContent = line; }
-    dbg('DEBUG: loaded');
-
+    const elToast = document.getElementById('toast');
 
     const elTrash = document.getElementById('trashDrop');
 
@@ -270,7 +255,7 @@ const elToast = document.getElementById('toast');
       drag.startY = e.clientY;
       drag.moved = false;
       drag.pointerId = e.pointerId;
-      // pointer-capture disabled (debug)
+      // iOS Telegram: avoid pointer-capture (can block further taps)
 drag.ghost = makeGhost(animalEl);
       positionGhost(e.clientX, e.clientY);
 
@@ -332,23 +317,32 @@ drag.ghost = makeGhost(animalEl);
       }
     }
     function onPointerUp(e){
-      if (!drag.active || drag.pointerId !== e.pointerId) return;
+      if (!drag.active) return;
+      if (drag.pointerId != null && e.pointerId != null && drag.pointerId !== e.pointerId) return;
       endDrag(true);
     }
     function onPointerCancel(e){
-      if (!drag.active || drag.pointerId !== e.pointerId) return;
+      if (!drag.active) return;
+      if (drag.pointerId != null && e.pointerId != null && drag.pointerId !== e.pointerId) return;
       endDrag(false);
     }
 
     elBoard.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointermove', onPointerMove, { passive:false });
     window.addEventListener('pointerup', onPointerUp, { passive:true });
-    // DBG_GLOBAL_LISTENERS
-    document.addEventListener('pointerup', (e)=>{ dbg(`DOC pointerup: ${e.target?.tagName?.toLowerCase()}#${e.target?.id||''} pid=${e.pointerId}\ndrag.active=${drag.active} moved=${drag.moved} dragPid=${drag.pointerId}`); }, true);
-    document.addEventListener('pointercancel', (e)=>{ dbg(`DOC pointercancel: ${e.target?.tagName?.toLowerCase()}#${e.target?.id||''} pid=${e.pointerId}\ndrag.active=${drag.active} moved=${drag.moved} dragPid=${drag.pointerId}`); }, true);
-    document.addEventListener('touchend', (e)=>{ dbg(`DOC touchend: touches=${e.touches?.length||0} changed=${e.changedTouches?.length||0}\ndrag.active=${drag.active} moved=${drag.moved}`); }, true);
-
     window.addEventListener('pointercancel', onPointerCancel, { passive:true });
+    // iOS Telegram: sometimes pointerup/cancel doesn't reliably reach window
+    document.addEventListener('pointerup', onPointerUp, true);
+    document.addEventListener('pointercancel', onPointerCancel, true);
+
+    // Extra safety: if drag gets "stuck", release it on touchend/cancel as well
+    document.addEventListener('touchend', () => { if (drag.active) endDrag(true); }, { passive:true });
+    document.addEventListener('touchcancel', () => { if (drag.active) endDrag(false); }, { passive:true });
+
+    // If app loses focus, never keep drag active
+    window.addEventListener('blur', () => { if (drag.active) endDrag(false); }, { passive:true });
+    document.addEventListener('visibilitychange', () => { if (document.hidden && drag.active) endDrag(false); }, { passive:true });
+
 
     // Controls
     elPlaceBtn?.addEventListener('click', () => handlers.onPlace({ toast, haptic, markPlace, queuePopup }));
