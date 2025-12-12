@@ -961,3 +961,13 @@ html, body{
     padding:3px 7px;
   }
 }
+
+/* Hero (следующий пациент) — компактнее на мобилке */
+@media (max-width: 520px){
+  .heroCard__name{ font-size: 22px; }     /* было слишком жирно */
+  .heroCard__meta2{
+    font-size: 14px;
+    margin-top: 6px;
+    white-space: nowrap;                  /* чтобы "через 5 сек" не ломалось */
+  }
+}
