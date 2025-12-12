@@ -180,7 +180,6 @@
       if (!el) return;
       let pid = null, sx = 0, sy = 0, down = false;
       el.addEventListener('pointerdown', (e) => {
-        if (el.disabled) return;
         if (e.button != null && e.button !== 0) return;
         down = true;
         pid = e.pointerId ?? null;
@@ -189,7 +188,6 @@
         e.preventDefault();
       }, { passive:false });
       el.addEventListener('pointerup', (e) => {
-        if (el.disabled) { down = false; pid = null; return; }
         if (!down) return;
         if (pid != null && e.pointerId != null && pid !== e.pointerId) return;
         down = false; pid = null;
@@ -202,9 +200,8 @@
       }, { passive:false });
       el.addEventListener('pointercancel', () => { down = false; pid = null; }, { passive:true });
       // Keep click for desktop
-      el.addEventListener('click', (e) => { if (el.disabled) return; e.preventDefault(); fn(e); });
+      el.addEventListener('click', (e) => { e.preventDefault(); fn(e); });
       el.addEventListener('keydown', (e) => {
-        if (el.disabled) return;
         if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fn(e); }
       });
     }
@@ -228,9 +225,8 @@
       elModal.classList.add('modal--hidden');
       openPopupNext();
     }
-    // iOS Telegram: do NOT rely on click (same bug as tabs/buttons)
-    bindTap(elModalOk, closePopup);
-    bindTap(elModal?.querySelector('.modal__backdrop'), closePopup);
+    elModalOk?.addEventListener('click', closePopup);
+    elModal?.querySelector('.modal__backdrop')?.addEventListener('click', closePopup);
 
     function queuePopup(p){
       popupQueue.push(p);
@@ -419,16 +415,6 @@ drag.ghost = makeGhost(animalEl);
       // Spawn timer
       const leftSec = (state.spawnAt - Date.now()) / 1000;
       if (elSpawnIn) elSpawnIn.textContent = fmtSec(leftSec);
-
-      // Place button availability (visual state)
-      const nowP = Date.now();
-      const canGetPatient = (state.queue.length > 0) || (nowP >= state.spawnAt);
-      const hasFreeBed = state.board.some((a, i) => !a && isCellUnlocked(state, i));
-      const canPlace = canGetPatient && hasFreeBed;
-      if (elPlaceBtn){
-        elPlaceBtn.disabled = !canPlace;
-        elPlaceBtn.setAttribute('aria-disabled', String(!canPlace));
-      }
 
       // Level + bar
       const need = xpNeed(state.level);
