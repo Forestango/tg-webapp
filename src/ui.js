@@ -41,7 +41,22 @@
 
     const elPlaceBtn = document.getElementById('placeBtn');
 
-    const elToast = document.getElementById('toast');
+    
+    // DBG_PLACE_LISTENERS
+    if (elPlaceBtn){
+      const log = (name) => (e) => {
+        const top = document.elementsFromPoint(e.clientX||0, e.clientY||0).slice(0,4).map(x=>x.tagName.toLowerCase()+(x.id?('#'+x.id):'')).join(' > ');
+        dbg(`${name}: target=${e.target?.tagName?.toLowerCase()}#${e.target?.id||''} type=${e.type} pid=${e.pointerId ?? 'na'}\nTOP: ${top}\ndrag.active=${drag.active} moved=${drag.moved} pid=${drag.pointerId}`);
+      };
+      ['pointerdown','pointerup','pointercancel','touchstart','touchend','touchcancel','click'].forEach(ev=>{
+        elPlaceBtn.addEventListener(ev, log('PLACE'), { capture:true, passive:false });
+      });
+    }
+const elToast = document.getElementById('toast');
+    const elDebug = document.getElementById('debugTap');
+    function dbg(line){ if (!elDebug) return; elDebug.textContent = line; }
+    dbg('DEBUG: loaded');
+
 
     const elTrash = document.getElementById('trashDrop');
 
@@ -255,9 +270,8 @@
       drag.startY = e.clientY;
       drag.moved = false;
       drag.pointerId = e.pointerId;
-
-      try{ animalEl.setPointerCapture?.(e.pointerId); }catch(_){}
-      drag.ghost = makeGhost(animalEl);
+      // pointer-capture disabled (debug)
+drag.ghost = makeGhost(animalEl);
       positionGhost(e.clientX, e.clientY);
 
       showTrash(true);
@@ -303,7 +317,7 @@
       const overTrash = drag.hoverTrash;
 
       // reset drag state
-      drag.active=false; drag.fromIdx=-1; drag.hoverIdx=-1; drag.hoverTrash=false; drag.pointerId=null;
+      drag.active=false; drag.fromIdx=-1; drag.hoverIdx=-1; drag.hoverTrash=false; drag.pointerId=null; drag.moved=false;
 
       showTrash(false);
 
@@ -329,6 +343,11 @@
     elBoard.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointermove', onPointerMove, { passive:false });
     window.addEventListener('pointerup', onPointerUp, { passive:true });
+    // DBG_GLOBAL_LISTENERS
+    document.addEventListener('pointerup', (e)=>{ dbg(`DOC pointerup: ${e.target?.tagName?.toLowerCase()}#${e.target?.id||''} pid=${e.pointerId}\ndrag.active=${drag.active} moved=${drag.moved} dragPid=${drag.pointerId}`); }, true);
+    document.addEventListener('pointercancel', (e)=>{ dbg(`DOC pointercancel: ${e.target?.tagName?.toLowerCase()}#${e.target?.id||''} pid=${e.pointerId}\ndrag.active=${drag.active} moved=${drag.moved} dragPid=${drag.pointerId}`); }, true);
+    document.addEventListener('touchend', (e)=>{ dbg(`DOC touchend: touches=${e.touches?.length||0} changed=${e.changedTouches?.length||0}\ndrag.active=${drag.active} moved=${drag.moved}`); }, true);
+
     window.addEventListener('pointercancel', onPointerCancel, { passive:true });
 
     // Controls
