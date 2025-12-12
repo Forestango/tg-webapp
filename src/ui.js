@@ -420,6 +420,16 @@ drag.ghost = makeGhost(animalEl);
       const leftSec = (state.spawnAt - Date.now()) / 1000;
       if (elSpawnIn) elSpawnIn.textContent = fmtSec(leftSec);
 
+      // Place button availability (visual state)
+      const nowP = Date.now();
+      const canGetPatient = (state.queue.length > 0) || (nowP >= state.spawnAt);
+      const hasFreeBed = state.board.some((a, i) => !a && isCellUnlocked(state, i));
+      const canPlace = canGetPatient && hasFreeBed;
+      if (elPlaceBtn){
+        elPlaceBtn.disabled = !canPlace;
+        elPlaceBtn.setAttribute('aria-disabled', String(!canPlace));
+      }
+
       // Level + bar
       const need = xpNeed(state.level);
       const pct = need > 0 ? Math.max(0, Math.min(1, state.xp / need)) : 0;
