@@ -43,13 +43,8 @@
 
     const elToast = document.getElementById('toast');
     const elDebug = document.getElementById('debugTap');
-    const debugEnabled = new URLSearchParams(location.search).has('debug');
-    if (debugEnabled && elDebug) elDebug.classList.remove('debugTap--hide');
-
-    function dbg(line){
-      if (!debugEnabled || !elDebug) return;
-      elDebug.textContent = line;
-    }
+    function dbg(line){ if (!elDebug) return; elDebug.textContent = line; }
+    dbg('DEBUG: loaded');
 
 
     const elTrash = document.getElementById('trashDrop');
@@ -264,7 +259,7 @@
       drag.startY = e.clientY;
       drag.moved = false;
       drag.pointerId = e.pointerId;
-      // NOTE: iOS Telegram may break taps with pointer-capture; we avoid it.
+      // pointer-capture disabled for iOS Telegram debugging
 drag.ghost = makeGhost(animalEl);
       positionGhost(e.clientX, e.clientY);
 
@@ -337,7 +332,6 @@ drag.ghost = makeGhost(animalEl);
     elBoard.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointermove', onPointerMove, { passive:false });
     window.addEventListener('pointerup', onPointerUp, { passive:true });
-    // Debug: show top element under tap/click (enable with ?debug=1)
     function describeEl(el){
       if (!el) return 'null';
       const id = el.id ? `#${el.id}` : '';
@@ -345,16 +339,12 @@ drag.ghost = makeGhost(animalEl);
       return `${el.tagName.toLowerCase()}${id}${cls}`;
     }
     document.addEventListener('pointerdown', (e) => {
-      const top = document.elementsFromPoint(e.clientX, e.clientY).slice(0,4).map(describeEl).join(' > ');
+      const top = document.elementsFromPoint(e.clientX, e.clientY).slice(0,5).map(describeEl).join(' > ');
       dbg(`pointerdown: ${describeEl(e.target)}\nTOP: ${top}\ndrag.active=${drag.active} moved=${drag.moved} pid=${drag.pointerId}`);
     }, true);
     document.addEventListener('click', (e) => {
-      dbg(`click: ${describeEl(e.target)} drag.active=${drag.active} moved=${drag.moved}`);
+      dbg(`click: ${describeEl(e.target)}\ndrag.active=${drag.active} moved=${drag.moved}`);
     }, true);
-
-    // Safety: stop dragging when app loses focus
-    window.addEventListener('blur', () => endDrag(false));
-    document.addEventListener('visibilitychange', () => { if (document.hidden) endDrag(false); });
 
     window.addEventListener('pointercancel', onPointerCancel, { passive:true });
 
