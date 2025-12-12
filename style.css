@@ -886,20 +886,7 @@ body{
   .heroCard__name{ font-size: 30px; }
 }
 
-/* Debug overlay (always on in this build) */
-.debugTap{
-  position: fixed;
-  left: 10px;
-  top: 10px;
-  z-index: 25000;
-  max-width: 92vw;
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: rgba(0,0,0,.60);
-  border: 1px solid rgba(255,255,255,.22);
-  color: rgba(255,255,255,.92);
-  font: 12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  backdrop-filter: blur(10px);
-  pointer-events: none;
-  white-space: pre-wrap;
+/* Tap-friendly controls on iOS */
+.btn, .chip--btn, .tab, .tabbar button, .heroBtn{
+  touch-action: manipulation;
 }
