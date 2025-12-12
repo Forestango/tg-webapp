@@ -42,6 +42,15 @@
     const elPlaceBtn = document.getElementById('placeBtn');
 
     const elToast = document.getElementById('toast');
+    const elDebug = document.getElementById('debugTap');
+    const debugEnabled = new URLSearchParams(location.search).has('debug');
+    if (debugEnabled && elDebug) elDebug.classList.remove('debugTap--hide');
+
+    function dbg(line){
+      if (!debugEnabled || !elDebug) return;
+      elDebug.textContent = line;
+    }
+
 
     const elTrash = document.getElementById('trashDrop');
 
@@ -255,9 +264,8 @@
       drag.startY = e.clientY;
       drag.moved = false;
       drag.pointerId = e.pointerId;
-
-      try{ animalEl.setPointerCapture?.(e.pointerId); }catch(_){}
-      drag.ghost = makeGhost(animalEl);
+      // NOTE: iOS Telegram may break taps with pointer-capture; we avoid it.
+drag.ghost = makeGhost(animalEl);
       positionGhost(e.clientX, e.clientY);
 
       showTrash(true);
@@ -329,6 +337,25 @@
     elBoard.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointermove', onPointerMove, { passive:false });
     window.addEventListener('pointerup', onPointerUp, { passive:true });
+    // Debug: show top element under tap/click (enable with ?debug=1)
+    function describeEl(el){
+      if (!el) return 'null';
+      const id = el.id ? `#${el.id}` : '';
+      const cls = (el.className && typeof el.className === 'string') ? ('.' + el.className.trim().split(/\s+/).slice(0,3).join('.')) : '';
+      return `${el.tagName.toLowerCase()}${id}${cls}`;
+    }
+    document.addEventListener('pointerdown', (e) => {
+      const top = document.elementsFromPoint(e.clientX, e.clientY).slice(0,4).map(describeEl).join(' > ');
+      dbg(`pointerdown: ${describeEl(e.target)}\nTOP: ${top}\ndrag.active=${drag.active} moved=${drag.moved} pid=${drag.pointerId}`);
+    }, true);
+    document.addEventListener('click', (e) => {
+      dbg(`click: ${describeEl(e.target)} drag.active=${drag.active} moved=${drag.moved}`);
+    }, true);
+
+    // Safety: stop dragging when app loses focus
+    window.addEventListener('blur', () => endDrag(false));
+    document.addEventListener('visibilitychange', () => { if (document.hidden) endDrag(false); });
+
     window.addEventListener('pointercancel', onPointerCancel, { passive:true });
 
     // Controls

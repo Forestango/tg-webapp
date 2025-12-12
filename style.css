@@ -885,3 +885,22 @@ body{
   .hero{ grid-template-columns: 1fr 132px; }
   .heroCard__name{ font-size: 30px; }
 }
+
+/* Debug overlay (enable with ?debug=1) */
+.debugTap{
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  z-index: 20000;
+  max-width: 92vw;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(0,0,0,.55);
+  border: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.92);
+  font: 12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+  white-space: pre-wrap;
+}
+.debugTap--hide{ display:none; }
