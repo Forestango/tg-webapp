@@ -763,3 +763,83 @@ body{
   box-shadow: 0 28px 80px rgba(0,0,0,.45);
   opacity: .98;
 }
+
+/* --- Gifts roll --- */
+.giftRoll{ margin-top: 14px; display:flex; flex-direction:column; gap: 14px; }
+.giftRoll__window{
+  position: relative;
+  border-radius: 26px;
+  padding: 16px 14px;
+  background:
+    radial-gradient(900px 280px at 20% 20%, rgba(255,255,255,.10), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 18px 70px rgba(0,0,0,.35);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  min-height: 110px;
+}
+.giftRoll__track{
+  display:flex;
+  gap: 10px;
+  will-change: transform;
+  transform: translateX(0px);
+}
+.giftItem{
+  flex: 0 0 auto;
+  width: 110px;
+  height: 78px;
+  border-radius: 22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight: 1000;
+  letter-spacing: .2px;
+  text-align:center;
+  padding: 10px;
+  user-select: none;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+  background: rgba(0,0,0,.18);
+}
+.giftItem--common{ background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04)); }
+.giftItem--rare{ background: linear-gradient(180deg, rgba(64,191,255,.22), rgba(255,255,255,.04)); }
+.giftItem--legend{ background: linear-gradient(180deg, rgba(255,162,33,.30), rgba(255,255,255,.04)); }
+.giftRoll__pointer{
+  position:absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  width: 4px;
+  transform: translateX(-50%);
+  border-radius: 99px;
+  background: rgba(255, 184, 73, .95);
+  box-shadow: 0 0 0 6px rgba(255,184,73,.10), 0 10px 30px rgba(0,0,0,.30);
+}
+.giftRoll__actions{ display:flex; gap: 10px; flex-wrap: wrap; align-items:center; }
+.btn--ghost{
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+}
+.giftRoll__meta{ display:flex; gap: 10px; flex-wrap: wrap; }
+.chip--wide{ min-width: 210px; }
+.giftResult{
+  border-radius: 22px;
+  padding: 12px 14px;
+  background: rgba(0,0,0,.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+  font-weight: 900;
+}
+
+/* Gifts page: plain free timer text (no pill) */
+.giftRoll__meta{
+  margin-top: 10px;
+  display: block;
+}
+.giftFreeText{
+  font-weight: 900;
+  opacity: .85;
+  font-size: 14px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}

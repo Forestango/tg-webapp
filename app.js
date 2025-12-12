@@ -176,6 +176,40 @@
     `;
   }
   patchStoreCopy();
+  // Gifts
+  const elGiftFreeBtn = document.getElementById('giftFreeBtn');
+  const elGiftPaidBtn = document.getElementById('giftPaidBtn');
+  const elGiftResult = document.getElementById('giftResult');
+
+  function showGiftResult(text){
+    if (!elGiftResult) return;
+    elGiftResult.style.display = '';
+    elGiftResult.textContent = text;
+  }
+
+  function doGift(mode){
+    const res = GAME.rollGift(state, mode);
+    if (!res.ok){
+      if (res.reason === 'cooldown') ui.toast?.('Бесплатный подарок ещё не готов');
+      if (res.reason === 'money') ui.toast?.(`Не хватает монет: нужно 🪙 ${res.cost}`);
+      ui.haptic?.('rigid');
+      return;
+    }
+    const rarity = res.rarity;
+    const label = res.prize.label;
+
+    ui.playGiftRoll(label, rarity, () => {
+      // nice feedback after roll
+      showGiftResult(`🎁 Выигрыш: ${label}`);
+      ui.toast?.('Подарок получен!');
+      ui.haptic?.(rarity === 'legend' ? 'heavy' : (rarity === 'rare' ? 'medium' : 'light'));
+      ui.render();
+    });
+  }
+
+  elGiftFreeBtn?.addEventListener('click', () => doGift('free'));
+  elGiftPaidBtn?.addEventListener('click', () => doGift('paid'));
+
 
   // Autosave
   setInterval(() => STATE.save(state), CFG.saveEveryMs);

@@ -115,18 +115,25 @@
       <section id="page-gifts" class="page">
         <div class="panel">
           <h2>Подарки</h2>
-          <p>Ежедневные награды, коды, ивенты — добавишь позже.</p>
-          <div class="cards">
-            <div class="card">
-              <div class="card__title">Ежедневный бонус</div>
-              <div class="card__body">Забери 2× быстрее на 90 секунд</div>
-              <button class="btn" type="button" disabled>Скоро</button>
+          <p class="muted">Крути подарки: бесплатно раз в день или за монеты.</p>
+
+          <div class="giftRoll">
+            <div class="giftRoll__window">
+              <div id="giftTrack" class="giftRoll__track" aria-label="Прокрутка подарка"></div>
+              <div class="giftRoll__pointer" aria-hidden="true"></div>
             </div>
-            <div class="card">
-              <div class="card__title">Пригласи друга</div>
-              <div class="card__body">Получите подарок вдвоём</div>
-              <button class="btn" type="button" disabled>Скоро</button>
+
+            <div class="giftRoll__actions">
+              <button id="giftFreeBtn" class="btn btn--primary" type="button">Бесплатно</button>
+              <button id="giftPaidBtn" class="btn" type="button">Крутить за 🪙 <span id="giftPaidCost">—</span></button>
+              <button id="giftSkipBtn" class="btn btn--ghost" type="button" style="display:none;">Пропустить</button>
             </div>
+
+            <div class="giftRoll__meta">
+              <div id="giftFreeTimer" class="giftFreeText">—</div>
+            </div>
+
+<div id="giftResult" class="giftResult" style="display:none;"></div>
           </div>
         </div>
       </section>
@@ -170,7 +177,7 @@
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
   </div>
 
-  <script src="./app.js" defer></script>
+  <script src="./app.js"></script>
 
     <div id="modal" class="modal modal--hidden" role="dialog" aria-modal="true">
       <div class="modal__backdrop"></div>
