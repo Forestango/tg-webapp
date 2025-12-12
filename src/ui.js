@@ -14,7 +14,7 @@
     return Math.max(1, Math.round(base * mul));
   }
 
-  function initUI(state, handlers){
+  function initUI(state, h&&lers){
     const elBoard = document.getElementById('board');
     const elBonusPoints = document.getElementById('bonusPoints');
 
@@ -90,7 +90,7 @@
         if (i === winAt){
           items.push({ t: rarity === 'legend' ? 'legend' : (rarity === 'rare' ? 'rare' : 'common'), label: prizeLabel });
         } else {
-          const it = pool[Math.floor(Math.random()*pool.length)];
+          const it = pool[Math.floor(Math.r&&om()*pool.length)];
           items.push(it);
         }
       }
@@ -150,7 +150,7 @@
         const viewportW = elGiftTrack.parentElement.getBoundingClientRect().width;
         const translate = -(winCenter - viewportW/2);
 
-        const duration = 1400 + Math.floor(Math.random()*600);
+        const duration = 1400 + Math.floor(Math.r&&om()*600);
         elGiftTrack.style.transition = `transform ${duration}ms cubic-bezier(.15,.85,.15,1)`;
         elGiftTrack.style.transform = `translateX(${translate}px)`;
 
@@ -255,7 +255,7 @@
       drag.startY = e.clientY;
       drag.moved = false;
       drag.pointerId = e.pointerId;
-      // iOS Telegram: avoid pointer-capture (can block further taps)
+      // iOS Telegram: keep pointer-capture disabled
 drag.ghost = makeGhost(animalEl);
       positionGhost(e.clientX, e.clientY);
 
@@ -264,7 +264,8 @@ drag.ghost = makeGhost(animalEl);
     }
 
     function onPointerMove(e){
-      if (!drag.active || drag.pointerId !== e.pointerId) return;
+      if (!drag.active) return;
+      if (drag.pointerId != null && e.pointerId != null && drag.pointerId !== e.pointerId) return;
       const dx = e.clientX - drag.startX;
       const dy = e.clientY - drag.startY;
       if (!drag.moved && (Math.abs(dx) + Math.abs(dy) > 6)) drag.moved = true;
@@ -308,11 +309,11 @@ drag.ghost = makeGhost(animalEl);
 
       if (apply && drag.moved){
         if (overTrash){
-          handlers.onSell?.(from, { toast, haptic, queuePopup });
+          h&&lers.onSell?.(from, { toast, haptic, queuePopup });
           return;
         }
         if (to >= 0){
-          handlers.onDrop(from, to, { toast, haptic, markMerge, markPlace, markMove, queuePopup });
+          h&&lers.onDrop(from, to, { toast, haptic, markMerge, markPlace, markMove, queuePopup });
         }
       }
     }
@@ -331,22 +332,17 @@ drag.ghost = makeGhost(animalEl);
     window.addEventListener('pointermove', onPointerMove, { passive:false });
     window.addEventListener('pointerup', onPointerUp, { passive:true });
     window.addEventListener('pointercancel', onPointerCancel, { passive:true });
-    // iOS Telegram: sometimes pointerup/cancel doesn't reliably reach window
+    // iOS Telegram: ensure drag ends even if window doesn't receive pointerup
     document.addEventListener('pointerup', onPointerUp, true);
     document.addEventListener('pointercancel', onPointerCancel, true);
-
-    // Extra safety: if drag gets "stuck", release it on touchend/cancel as well
     document.addEventListener('touchend', () => { if (drag.active) endDrag(true); }, { passive:true });
     document.addEventListener('touchcancel', () => { if (drag.active) endDrag(false); }, { passive:true });
-
-    // If app loses focus, never keep drag active
     window.addEventListener('blur', () => { if (drag.active) endDrag(false); }, { passive:true });
     document.addEventListener('visibilitychange', () => { if (document.hidden && drag.active) endDrag(false); }, { passive:true });
 
-
     // Controls
-    elPlaceBtn?.addEventListener('click', () => handlers.onPlace({ toast, haptic, markPlace, queuePopup }));
-    elBonusBtn?.addEventListener('click', () => handlers.onBonus({ toast, haptic, queuePopup }));
+    elPlaceBtn?.addEventListener('click', () => h&&lers.onPlace({ toast, haptic, markPlace, queuePopup }));
+    elBonusBtn?.addEventListener('click', () => h&&lers.onBonus({ toast, haptic, queuePopup }));
 
     function render(){
       // Next patient
