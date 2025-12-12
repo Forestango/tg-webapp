@@ -214,26 +214,36 @@
     function clearDropHighlights(){
       document.querySelectorAll('.cell--drop').forEach(c => c.classList.remove('cell--drop'));
     }
+    
+    // --- Robust hit-testing for iOS Telegram (avoid elementFromPoint quirks) ---
+    let cellRects = null;
+    function refreshCellRects(){
+      if (!elBoard) return;
+      const cells = Array.from(elBoard.querySelectorAll('.cell'));
+      cellRects = cells.map((c) => {
+        const idx = Number(c.dataset.idx);
+        const r = c.getBoundingClientRect();
+        return { idx: Number.isFinite(idx) ? idx : -1, r };
+      }).filter(x => x.idx >= 0);
+    }
+    function pointInRect(x, y, r){
+      return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+    }
     function isTrashFromPoint(x, y){
       if (!elTrash) return false;
-      const els = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)];
-      for (const el of els){
-        if (el?.closest?.('#trashDrop')) return true;
-      }
-      return false;
+      const r = elTrash.getBoundingClientRect();
+      return pointInRect(x, y, r);
     }
-
     function cellFromPoint(x, y){
-      const els = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [document.elementFromPoint(x, y)];
-      for (const el of els){
-        const cell = el?.closest?.('.cell');
-        if (!cell) continue;
-        const idx = Number(cell.dataset.idx);
-        if (Number.isFinite(idx)) return idx;
+      if (!cellRects || !cellRects.length) refreshCellRects();
+      if (!cellRects) return -1;
+      for (let i=0; i<cellRects.length; i++){
+        const it = cellRects[i];
+        if (pointInRect(x, y, it.r)) return it.idx;
       }
       return -1;
     }
-    function makeGhost(animalEl){
+function makeGhost(animalEl){
       const g = animalEl.cloneNode(true);
       g.classList.add('drag-ghost');
       g.classList.remove('animal--pop','animal--merge');
@@ -258,11 +268,15 @@
       drag.fromIdx = fromIdx;
       drag.hoverIdx = fromIdx;
       drag.startX = e.clientX;
+      drag.lastX = e.clientX;
       drag.startY = e.clientY;
+      drag.lastY = e.clientY;
+      refreshCellRects();
       drag.moved = false;
       drag.pointerId = e.pointerId;
       // iOS Telegram: avoid pointer capture
 drag.ghost = makeGhost(animalEl);
+      drag.lastX = e.clientX; drag.lastY = e.clientY;
       positionGhost(e.clientX, e.clientY);
 
       showTrash(true);
@@ -270,12 +284,12 @@ drag.ghost = makeGhost(animalEl);
     }
 
     function onPointerMove(e){
-      if (!drag.active) return;
-      if (drag.pointerId != null && e.pointerId != null && drag.pointerId !== e.pointerId) return;
+      if (!drag.active || drag.pointerId !== e.pointerId) return;
       const dx = e.clientX - drag.startX;
       const dy = e.clientY - drag.startY;
       if (!drag.moved && (Math.abs(dx) + Math.abs(dy) > 6)) drag.moved = true;
 
+      drag.lastX = e.clientX; drag.lastY = e.clientY;
       positionGhost(e.clientX, e.clientY);
 
       const overTrash = isTrashFromPoint(e.clientX, e.clientY);
@@ -283,6 +297,13 @@ drag.ghost = makeGhost(animalEl);
         drag.hoverTrash = overTrash;
         hotTrash(overTrash);
         if (overTrash) clearDropHighlights();
+      // Re-evaluate drop target from last pointer position (iOS safety)
+      const lx = drag.lastX ?? drag.startX;
+      const ly = drag.lastY ?? drag.startY;
+      const overTrashNow = isTrashFromPoint(lx, ly);
+      if (overTrashNow) { drag.hoverTrash = true; drag.hoverIdx = -1; }
+      else if (drag.hoverIdx < 0) { drag.hoverIdx = cellFromPoint(lx, ly); }
+
       }
       if (overTrash){
         drag.hoverIdx = -1;
