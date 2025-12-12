@@ -16,9 +16,6 @@
       // money (монеты). Earned per second from animals, used in store.
       bonusPoints: 0,
 
-      // sticky metric used for pricing (prevents cheap-roll exploit by selling)
-      bestIncomePerSec: 0,
-
       // leveling
       level: 1,
       xp: 0,
@@ -56,7 +53,6 @@
     if (!Array.isArray(state.queue)) state.queue = [];
     if (!Array.isArray(state.unlockedLines)) state.unlockedLines = [];
     if (!Number.isFinite(state.unlockedBottomCells)) state.unlockedBottomCells = 0;
-    if (!Number.isFinite(state.bestIncomePerSec)) state.bestIncomePerSec = 0;
 
     // Ensure at least one unlocked line at start
     if (state.unlockedLines.length === 0){

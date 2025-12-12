@@ -24,7 +24,7 @@
 
     // Gifts
     giftPaidBaseCost: 600,       // fallback if income=0
-    giftPaidCostSeconds: 600,    // paid spin costs ~N seconds of income (~10 min)
+    giftPaidCostSeconds: 60,     // paid spin costs ~N seconds of current income
     giftFreeEverySec: 86400,     // once per day
     giftPityRare: 7,             // guarantee rare after N without rare
     giftPityLegend: 20,          // guarantee legend after N without legend
@@ -52,9 +52,9 @@
       tiers: [
         { name: 'Сибирская кошка', emoji: '🐱', rate: 1, colorA:'#60a5fa', colorB:'#2563eb' },
         { name: 'Британец', emoji: '🐱', rate: 2, colorA:'#93c5fd', colorB:'#4f46e5' },
-        { name: 'Мейн-кун', emoji: '🐱', rate: 3, colorA:'#fb7185', colorB:'#f43f5e' },
-        { name: 'Сфинкс', emoji: '🐱', rate: 5, colorA:'#fda4af', colorB:'#fb7185' },
-        { name: 'Снежный барс', emoji: '🐆', rate: 8, colorA:'#cbd5e1', colorB:'#64748b' }
+        { name: 'Мейн-кун', emoji: '🐱', rate: 4, colorA:'#fb7185', colorB:'#f43f5e' },
+        { name: 'Сфинкс', emoji: '🐱', rate: 8, colorA:'#fda4af', colorB:'#fb7185' },
+        { name: 'Снежный барс', emoji: '🐆', rate: 16, colorA:'#cbd5e1', colorB:'#64748b' }
       ]
     },
     {
@@ -62,39 +62,39 @@
       tiers: [
         { name: 'Хаски', emoji: '🐶', rate: 1, colorA:'#fbbf24', colorB:'#f97316' },
         { name: 'Корги', emoji: '🐶', rate: 2, colorA:'#34d399', colorB:'#10b981' },
-        { name: 'Такса', emoji: '🐶', rate: 3, colorA:'#a78bfa', colorB:'#6d28d9' },
-        { name: 'Самоед', emoji: '🐶', rate: 5, colorA:'#93c5fd', colorB:'#6366f1' },
-        { name: 'Лабрадор', emoji: '🐕', rate: 8, colorA:'#fbbf24', colorB:'#ef4444' }
+        { name: 'Такса', emoji: '🐶', rate: 4, colorA:'#a78bfa', colorB:'#6d28d9' },
+        { name: 'Самоед', emoji: '🐶', rate: 8, colorA:'#93c5fd', colorB:'#6366f1' },
+        { name: 'Лабрадор', emoji: '🐕', rate: 16, colorA:'#fbbf24', colorB:'#ef4444' }
       ]
     },
     {
       id: 'rodent_hamster',
       tiers: [
         { name: 'Хомяк', emoji: '🐹', rate: 2, colorA:'#86efac', colorB:'#22c55e' },
-        { name: 'Морская свинка', emoji: '🐹', rate: 3, colorA:'#7ee2ff', colorB:'#2ec3ff' },
-        { name: 'Шиншилла', emoji: '🐭', rate: 5, colorA:'#cbd5e1', colorB:'#64748b' },
-        { name: 'Кролик', emoji: '🐰', rate: 8, colorA:'#fb7185', colorB:'#f43f5e' },
-        { name: 'Капибара', emoji: '🦫', rate: 13, colorA:'#f59e0b', colorB:'#ef4444' }
+        { name: 'Морская свинка', emoji: '🐹', rate: 4, colorA:'#7ee2ff', colorB:'#2ec3ff' },
+        { name: 'Шиншилла', emoji: '🐭', rate: 8, colorA:'#cbd5e1', colorB:'#64748b' },
+        { name: 'Кролик', emoji: '🐰', rate: 16, colorA:'#fb7185', colorB:'#f43f5e' },
+        { name: 'Капибара', emoji: '🦫', rate: 32, colorA:'#f59e0b', colorB:'#ef4444' }
       ]
     },
     {
       id: 'wild_fox',
       tiers: [
         { name: 'Лиса', emoji: '🦊', rate: 4, colorA:'#ffb020', colorB:'#ff7a18' },
-        { name: 'Фенек', emoji: '🦊', rate: 6, colorA:'#fbbf24', colorB:'#f97316' },
-        { name: 'Енот', emoji: '🦝', rate: 9, colorA:'#34d399', colorB:'#10b981' },
-        { name: 'Панда', emoji: '🐼', rate: 13, colorA:'#cbd5e1', colorB:'#64748b' },
-        { name: 'Коала', emoji: '🐨', rate: 19, colorA:'#a3e635', colorB:'#16a34a' }
+        { name: 'Фенек', emoji: '🦊', rate: 8, colorA:'#fbbf24', colorB:'#f97316' },
+        { name: 'Енот', emoji: '🦝', rate: 12, colorA:'#34d399', colorB:'#10b981' },
+        { name: 'Панда', emoji: '🐼', rate: 18, colorA:'#cbd5e1', colorB:'#64748b' },
+        { name: 'Коала', emoji: '🐨', rate: 28, colorA:'#a3e635', colorB:'#16a34a' }
       ]
     },
     {
       id: 'weird_axolotl',
       tiers: [
         { name: 'Аксолотль', emoji: '🫧', rate: 6, colorA:'#fda4af', colorB:'#fb7185' },
-        { name: 'Осьминожка', emoji: '🐙', rate: 9, colorA:'#a78bfa', colorB:'#6d28d9' },
-        { name: 'Иглобрюх', emoji: '🐡', rate: 14, colorA:'#7ee2ff', colorB:'#2ec3ff' },
-        { name: 'Лемур', emoji: '🐒', rate: 22, colorA:'#fbbf24', colorB:'#f97316' },
-        { name: 'Фламинго', emoji: '🦩', rate: 35, colorA:'#fb7185', colorB:'#db2777' }
+        { name: 'Осьминожка', emoji: '🐙', rate: 12, colorA:'#a78bfa', colorB:'#6d28d9' },
+        { name: 'Иглобрюх', emoji: '🐡', rate: 24, colorA:'#7ee2ff', colorB:'#2ec3ff' },
+        { name: 'Лемур', emoji: '🐒', rate: 48, colorA:'#fbbf24', colorB:'#f97316' },
+        { name: 'Фламинго', emoji: '🦩', rate: 96, colorA:'#fb7185', colorB:'#db2777' }
       ]
     }
   ];

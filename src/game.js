@@ -275,12 +275,6 @@
       const t = getTier(a.lineId, a.tier);
       sum += (t?.rate ?? 1);
     }
-
-    // Keep a sticky best income metric (used for gift pricing to avoid cheap-roll exploit by selling).
-    // We track base income (without 2×) because gifts also price off base income.
-    if (!Number.isFinite(state.bestIncomePerSec)) state.bestIncomePerSec = 0;
-    if (sum > state.bestIncomePerSec) state.bestIncomePerSec = sum;
-
     state.bonusPoints += sum * multiplier(state) * dt;
   }
 
@@ -351,13 +345,9 @@
   }
 
   function giftPaidCost(state){
-    const incNow = Math.max(0, incomePerSec(state));
-    const best = Math.max(0, Number(state.bestIncomePerSec) || 0);
-    // Use a sticky floor so the player can't make paid rolls cheap by selling high-tier animals.
-    // 0.8 keeps it fair: if player really rebuilt lower, price gradually becomes affordable again.
-    const inc = Math.max(incNow, best * 0.8);
+    const inc = Math.max(0, incomePerSec(state));
     if (inc <= 0) return CFG.giftPaidBaseCost;
-    // about N seconds of (effective) income
+    // about N seconds of current income
     return Math.max(CFG.giftPaidBaseCost, Math.round(inc * CFG.giftPaidCostSeconds));
   }
 
