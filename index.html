@@ -7,6 +7,28 @@
   <link rel="stylesheet" href="./style.css" />
   <!-- Telegram Mini App (optional). Works fine without Telegram. -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Скрипты: сначала данные/движок, потом app -->
+  <script src="./src/data.js" defer></script>
+  <script src="./src/state.js" defer></script>
+  <script src="./src/game.js" defer></script>
+  <script src="./src/ui.js" defer></script>
+
+  <!-- Главный файл приложения -->
+  <script src="./app.js" defer></script>
+
+  <div id="modal" class="modal modal--hidden" role="dialog" aria-modal="true">
+    <div class="modal__backdrop"></div>
+    <div class="modal__card">
+      <div class="modal__title" id="modalTitle">Уровень повышен!</div>
+      <div class="modal__body" id="modalBody"></div>
+      <div class="modal__actions">
+        <button class="btn btn--primary" id="modalOk" type="button">Ок</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
 </head>
 <body>
   <div id="app" class="app">
@@ -177,7 +199,6 @@
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
   </div>
 
-  <script src="./app.js"></script>
 
     <div id="modal" class="modal modal--hidden" role="dialog" aria-modal="true">
       <div class="modal__backdrop"></div>
@@ -189,13 +210,6 @@
         </div>
       </div>
     </div>
-
-
-    <script src="src/data.js"></script>
-    <script src="src/state.js"></script>
-    <script src="src/game.js"></script>
-    <script src="src/ui.js"></script>
-    <script src="app.js"></script>
 
 </body>
 </html>
