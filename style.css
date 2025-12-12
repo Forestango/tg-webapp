@@ -886,7 +886,26 @@ body{
   .heroCard__name{ font-size: 30px; }
 }
 
-/* Tap-friendly controls on iOS */
-.btn, .chip--btn, .tab, .tabbar button, .heroBtn{
-  touch-action: manipulation;
+/* --- Anti-selection (iOS Telegram) --- */
+html, body{
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none; /* disables iOS text callout/magnifier */
+  -webkit-tap-highlight-color: transparent;
+}
+#app, .app, main.content{
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+button, a, .tab, .heroBtn, .chip, .tile, .cell, .board, .boardWrap{
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+/* Allow selection in inputs if we ever add them */
+input, textarea{
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
 }

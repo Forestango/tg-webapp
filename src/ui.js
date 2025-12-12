@@ -255,8 +255,9 @@
       drag.startY = e.clientY;
       drag.moved = false;
       drag.pointerId = e.pointerId;
-      // NOTE: iOS Telegram can break taps if pointer is captured; keep it off.
-drag.ghost = makeGhost(animalEl);
+
+      try{ animalEl.setPointerCapture?.(e.pointerId); }catch(_){}
+      drag.ghost = makeGhost(animalEl);
       positionGhost(e.clientX, e.clientY);
 
       showTrash(true);
