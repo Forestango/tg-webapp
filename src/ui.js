@@ -180,6 +180,7 @@
       if (!el) return;
       let pid = null, sx = 0, sy = 0, down = false;
       el.addEventListener('pointerdown', (e) => {
+        if (el.disabled) return;
         if (e.button != null && e.button !== 0) return;
         down = true;
         pid = e.pointerId ?? null;
@@ -188,6 +189,7 @@
         e.preventDefault();
       }, { passive:false });
       el.addEventListener('pointerup', (e) => {
+        if (el.disabled) { down = false; pid = null; return; }
         if (!down) return;
         if (pid != null && e.pointerId != null && pid !== e.pointerId) return;
         down = false; pid = null;
@@ -200,8 +202,9 @@
       }, { passive:false });
       el.addEventListener('pointercancel', () => { down = false; pid = null; }, { passive:true });
       // Keep click for desktop
-      el.addEventListener('click', (e) => { e.preventDefault(); fn(e); });
+      el.addEventListener('click', (e) => { if (el.disabled) return; e.preventDefault(); fn(e); });
       el.addEventListener('keydown', (e) => {
+        if (el.disabled) return;
         if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fn(e); }
       });
     }
