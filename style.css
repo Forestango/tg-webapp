@@ -933,122 +933,55 @@ html, body{
 }
 
 
-/* === Pet images (placeholders) === */
-.animal__img{
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,.18));
-  pointer-events: none;
-  user-select: none;
-}
-.heroCard__icon .petIcon{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-  display: block;
+/* === PATCH: icon-only tabbar (mask-based SVG) === */
+.sr-only{
+  position:absolute !important;
+  width:1px;height:1px;
+  padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);
+  white-space:nowrap;border:0;
 }
 
-/* === PATCH: Full-tile pet artwork + compact tiles (hide names) === */
-.animal{
-  overflow:hidden;
-  /* keep drag on the whole tile, children should not steal events */
-}
-.animal__name{ display:none !important; }
-
-/* When using image-based pets */
-.animal__img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover; /* fills the card; change to contain if you want no cropping */
-  border-radius: inherit;
-  pointer-events:none;
-  user-select:none;
+.tabbar.tabbar--icons{
+  gap: 10px;
+  padding: 10px 14px;
 }
 
-/* Emoji fallback stays centered */
-.animal__emoji{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-55%);
-  pointer-events:none;
-}
-
-/* Income badge pinned to bottom */
-.animal__rate{
-  position:absolute;
-  left:50%;
-  bottom:8px;
-  transform:translateX(-50%);
-  pointer-events:none;
-}
-
-/* Next-patient icon image */
-.heroCard__icon .petIcon{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius: inherit;
-  pointer-events:none;
-  user-select:none;
-}
-
-/* FIX: rate pill should be bottom, horizontal (no wrapping) */
-.animal{
-  position: absolute; /* keep as-is if already absolute; ensures positioned children anchor */
-}
-
-.animal__rate{
-  position: absolute !important;
-  left: 50% !important;
-  bottom: 10px !important;
-  transform: translateX(-50%) !important;
-
-  /* make it a horizontal pill */
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  white-space: nowrap !important;
-  line-height: 1 !important;
-
-  padding: 4px 10px !important;
-  max-width: calc(100% - 16px) !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-
-  border-radius: 999px !important;
-}
-
-/* If something in your custom patch set a fixed size / round badge — neutralize it */
-.animal__rate{
-  width: auto !important;
-  height: auto !important;
-  aspect-ratio: auto !important;
-}
-
-
-/* --- Merge fact card (modal content) --- */
-.factMedia{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 8px 0 12px;
-}
-.factMedia__img{
-  width: min(220px, 72vw);
-  height: auto;
-  aspect-ratio: 1/1;
-  object-fit: cover;
+.tabbar.tabbar--icons .tab{
+  min-width: 0;
+  flex: 1 1 0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding: 10px 0;
   border-radius: 16px;
-  box-shadow: 0 10px 24px rgba(0,0,0,.18);
-}
-.factCard__text{
-  font-size: 14px;
-  line-height: 1.35;
 }
 
+.tabbar.tabbar--icons .tab__t{ display:none; } /* we keep sr-only for a11y */
+
+.tabbar.tabbar--icons .tab__i{
+  width: 28px;
+  height: 28px;
+  display:block;
+  background-color: rgba(255,255,255,.35);
+  -webkit-mask: var(--tab-icon) no-repeat center / contain;
+  mask: var(--tab-icon) no-repeat center / contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.25));
+  transition: transform .12s ease, background-color .12s ease, filter .12s ease;
+}
+
+.tabbar.tabbar--icons .tab:active .tab__i{
+  transform: scale(.95);
+}
+
+.tabbar.tabbar--icons .tab--active .tab__i{
+  background-color: var(--accent, #f4a11f);
+  filter: drop-shadow(0 4px 12px rgba(244,161,31,.35));
+}
+
+/* Icon file names you should add/replace */
+.tabbar .tab__i--home{ --tab-icon: url("assets/icons/tab_home.svg"); }
+.tabbar .tab__i--store{ --tab-icon: url("assets/icons/tab_store.svg"); }
+.tabbar .tab__i--equipment{ --tab-icon: url("assets/icons/tab_equipment.svg"); }
+.tabbar .tab__i--settings{ --tab-icon: url("assets/icons/tab_settings.svg"); }
+/* === /PATCH === */
