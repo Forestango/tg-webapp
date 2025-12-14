@@ -44,10 +44,10 @@
   }
 
   function queueInfo(qItem){
-    if (!qItem) return { name: '—', emoji: '🐾', rate: 0 };
+    if (!qItem) return { name: '—', emoji: '🐾', img: null, rate: 0 };
     const t = getTier(qItem.lineId, qItem.tier);
-    if (!t) return { name: '—', emoji: '🐾', rate: 0 };
-    return { name: t.name, emoji: t.emoji, rate: t.rate };
+    if (!t) return { name: '—', emoji: '🐾', img: null, rate: 0 };
+    return { name: t.name, emoji: t.emoji, img: t.img || null, rate: t.rate };
   }
 
   function rollUnlockedLine(state){
@@ -275,12 +275,8 @@
       const t = getTier(a.lineId, a.tier);
       sum += (t?.rate ?? 1);
     }
-    const inc = Math.max(0, sum * multiplier(state)); // coins/sec
-    if (!Number.isFinite(state.bestIncomePerSec)) state.bestIncomePerSec = 0;
-    if (inc > state.bestIncomePerSec) state.bestIncomePerSec = inc;
-
-    state.bonusPoints += inc * dt;
-}
+    state.bonusPoints += sum * multiplier(state) * dt;
+  }
 
   function initProgression(state, ui){
     // Ensure level 1 progression applied once (unlocks base line + gift)
@@ -348,23 +344,12 @@
     return sum;
   }
 
-
-  function coinsPerSec(state){
-    // actual coins/sec the player earns (includes 2x bonus + level multiplier)
-    return Math.max(0, incomePerSec(state)) * multiplier(state);
-  }
-
   function giftPaidCost(state){
-    // Gift price should not become "cheap" by temporarily dropping income (sell top animal).
-    // Use a sticky best-income metric with a soft floor.
-    const cur = coinsPerSec(state);
-    const best = Math.max(0, state.bestIncomePerSec || 0);
-    const base = Math.max(cur, best * 0.8);
-
-    if (base <= 0) return CFG.giftPaidBaseCost;
-    // about N seconds of income
-    return Math.max(CFG.giftPaidBaseCost, Math.round(base * CFG.giftPaidCostSeconds));
-}
+    const inc = Math.max(0, incomePerSec(state));
+    if (inc <= 0) return CFG.giftPaidBaseCost;
+    // about N seconds of current income
+    return Math.max(CFG.giftPaidBaseCost, Math.round(inc * CFG.giftPaidCostSeconds));
+  }
 
   function unlockNextBottomCell(state){
     if (typeof state.unlockedBottomCells !== 'number') state.unlockedBottomCells = 0;
