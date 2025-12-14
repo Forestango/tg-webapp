@@ -16,9 +16,6 @@
       // money (монеты). Earned per second from animals, used in store.
       bonusPoints: 0,
 
-
-      // economy helper: highest coins/sec achieved (for fair gift pricing)
-      bestIncomePerSec: 0,
       // leveling
       level: 1,
       xp: 0,
@@ -26,6 +23,9 @@
       // unlocked content
       unlockedLines: [],            // line ids that can spawn/buy
       unlockedBottomCells: 0,       // 0..4 unlocked in bottom row
+
+      // facts: per-line cursor to avoid repeating the same fact every merge
+      factCursor: {},
 
       // board + queue
       board: emptyBoard(),
@@ -56,8 +56,8 @@
     if (!Array.isArray(state.queue)) state.queue = [];
     if (!Array.isArray(state.unlockedLines)) state.unlockedLines = [];
     if (!Number.isFinite(state.unlockedBottomCells)) state.unlockedBottomCells = 0;
+    if (!state.factCursor || typeof state.factCursor !== 'object') state.factCursor = {};
 
-    if (!Number.isFinite(state.bestIncomePerSec)) state.bestIncomePerSec = 0;
     // Ensure at least one unlocked line at start
     if (state.unlockedLines.length === 0){
       // will be filled by progression init

@@ -50,51 +50,51 @@
     {
       id: 'cat_siberian',
       tiers: [
-        { name: 'Сибирская кошка', emoji: '🐱', img: 'assets/pets/cat_siberian_0.png', rate: 1, colorA:'#60a5fa', colorB:'#2563eb' },
-        { name: 'Британец', emoji: '🐱', img: 'assets/pets/cat_siberian_1.png', rate: 2, colorA:'#93c5fd', colorB:'#4f46e5' },
-        { name: 'Мейн-кун', emoji: '🐱', img: 'assets/pets/cat_siberian_2.png', rate: 4, colorA:'#fb7185', colorB:'#f43f5e' },
-        { name: 'Сфинкс', emoji: '🐱', img: 'assets/pets/cat_siberian_3.png', rate: 8, colorA:'#fda4af', colorB:'#fb7185' },
-        { name: 'Снежный барс', emoji: '🐆', img: 'assets/pets/cat_siberian_4.png', rate: 16, colorA:'#cbd5e1', colorB:'#64748b' }
+        { name: 'Сибирская кошка', emoji: '🐱', rate: 1, colorA:'#60a5fa', colorB:'#2563eb' },
+        { name: 'Британец', emoji: '🐱', rate: 2, colorA:'#93c5fd', colorB:'#4f46e5' },
+        { name: 'Мейн-кун', emoji: '🐱', rate: 4, colorA:'#fb7185', colorB:'#f43f5e' },
+        { name: 'Сфинкс', emoji: '🐱', rate: 8, colorA:'#fda4af', colorB:'#fb7185' },
+        { name: 'Снежный барс', emoji: '🐆', rate: 16, colorA:'#cbd5e1', colorB:'#64748b' }
       ]
     },
     {
       id: 'dog_husky',
       tiers: [
-        { name: 'Хаски', emoji: '🐶', img: 'assets/pets/dog_husky_0.png', rate: 1, colorA:'#fbbf24', colorB:'#f97316' },
-        { name: 'Корги', emoji: '🐶', img: 'assets/pets/dog_husky_1.png', rate: 2, colorA:'#34d399', colorB:'#10b981' },
-        { name: 'Такса', emoji: '🐶', img: 'assets/pets/dog_husky_2.png', rate: 4, colorA:'#a78bfa', colorB:'#6d28d9' },
-        { name: 'Самоед', emoji: '🐶', img: 'assets/pets/dog_husky_3.png', rate: 8, colorA:'#93c5fd', colorB:'#6366f1' },
-        { name: 'Лабрадор', emoji: '🐕', img: 'assets/pets/dog_husky_4.png', rate: 16, colorA:'#fbbf24', colorB:'#ef4444' }
+        { name: 'Хаски', emoji: '🐶', rate: 1, colorA:'#fbbf24', colorB:'#f97316' },
+        { name: 'Корги', emoji: '🐶', rate: 2, colorA:'#34d399', colorB:'#10b981' },
+        { name: 'Такса', emoji: '🐶', rate: 4, colorA:'#a78bfa', colorB:'#6d28d9' },
+        { name: 'Самоед', emoji: '🐶', rate: 8, colorA:'#93c5fd', colorB:'#6366f1' },
+        { name: 'Лабрадор', emoji: '🐕', rate: 16, colorA:'#fbbf24', colorB:'#ef4444' }
       ]
     },
     {
       id: 'rodent_hamster',
       tiers: [
-        { name: 'Хомяк', emoji: '🐹', img: 'assets/pets/rodent_hamster_0.png', rate: 2, colorA:'#86efac', colorB:'#22c55e' },
-        { name: 'Морская свинка', emoji: '🐹', img: 'assets/pets/rodent_hamster_1.png', rate: 4, colorA:'#7ee2ff', colorB:'#2ec3ff' },
-        { name: 'Шиншилла', emoji: '🐭', img: 'assets/pets/rodent_hamster_2.png', rate: 8, colorA:'#cbd5e1', colorB:'#64748b' },
-        { name: 'Кролик', emoji: '🐰', img: 'assets/pets/rodent_hamster_3.png', rate: 16, colorA:'#fb7185', colorB:'#f43f5e' },
-        { name: 'Капибара', emoji: '🦫', img: 'assets/pets/rodent_hamster_4.png', rate: 32, colorA:'#f59e0b', colorB:'#ef4444' }
+        { name: 'Хомяк', emoji: '🐹', rate: 2, colorA:'#86efac', colorB:'#22c55e' },
+        { name: 'Морская свинка', emoji: '🐹', rate: 4, colorA:'#7ee2ff', colorB:'#2ec3ff' },
+        { name: 'Шиншилла', emoji: '🐭', rate: 8, colorA:'#cbd5e1', colorB:'#64748b' },
+        { name: 'Кролик', emoji: '🐰', rate: 16, colorA:'#fb7185', colorB:'#f43f5e' },
+        { name: 'Капибара', emoji: '🦫', rate: 32, colorA:'#f59e0b', colorB:'#ef4444' }
       ]
     },
     {
       id: 'wild_fox',
       tiers: [
-        { name: 'Лиса', emoji: '🦊', img: 'assets/pets/wild_fox_0.png', rate: 4, colorA:'#ffb020', colorB:'#ff7a18' },
-        { name: 'Фенек', emoji: '🦊', img: 'assets/pets/wild_fox_1.png', rate: 8, colorA:'#fbbf24', colorB:'#f97316' },
-        { name: 'Енот', emoji: '🦝', img: 'assets/pets/wild_fox_2.png', rate: 12, colorA:'#34d399', colorB:'#10b981' },
-        { name: 'Панда', emoji: '🐼', img: 'assets/pets/wild_fox_3.png', rate: 18, colorA:'#cbd5e1', colorB:'#64748b' },
-        { name: 'Коала', emoji: '🐨', img: 'assets/pets/wild_fox_4.png', rate: 28, colorA:'#a3e635', colorB:'#16a34a' }
+        { name: 'Лиса', emoji: '🦊', rate: 4, colorA:'#ffb020', colorB:'#ff7a18' },
+        { name: 'Фенек', emoji: '🦊', rate: 8, colorA:'#fbbf24', colorB:'#f97316' },
+        { name: 'Енот', emoji: '🦝', rate: 12, colorA:'#34d399', colorB:'#10b981' },
+        { name: 'Панда', emoji: '🐼', rate: 18, colorA:'#cbd5e1', colorB:'#64748b' },
+        { name: 'Коала', emoji: '🐨', rate: 28, colorA:'#a3e635', colorB:'#16a34a' }
       ]
     },
     {
       id: 'weird_axolotl',
       tiers: [
-        { name: 'Аксолотль', emoji: '🫧', img: 'assets/pets/weird_axolotl_0.png', rate: 6, colorA:'#fda4af', colorB:'#fb7185' },
-        { name: 'Осьминожка', emoji: '🐙', img: 'assets/pets/weird_axolotl_1.png', rate: 12, colorA:'#a78bfa', colorB:'#6d28d9' },
-        { name: 'Иглобрюх', emoji: '🐡', img: 'assets/pets/weird_axolotl_2.png', rate: 24, colorA:'#7ee2ff', colorB:'#2ec3ff' },
-        { name: 'Лемур', emoji: '🐒', img: 'assets/pets/weird_axolotl_3.png', rate: 48, colorA:'#fbbf24', colorB:'#f97316' },
-        { name: 'Фламинго', emoji: '🦩', img: 'assets/pets/weird_axolotl_4.png', rate: 96, colorA:'#fb7185', colorB:'#db2777' }
+        { name: 'Аксолотль', emoji: '🫧', rate: 6, colorA:'#fda4af', colorB:'#fb7185' },
+        { name: 'Осьминожка', emoji: '🐙', rate: 12, colorA:'#a78bfa', colorB:'#6d28d9' },
+        { name: 'Иглобрюх', emoji: '🐡', rate: 24, colorA:'#7ee2ff', colorB:'#2ec3ff' },
+        { name: 'Лемур', emoji: '🐒', rate: 48, colorA:'#fbbf24', colorB:'#f97316' },
+        { name: 'Фламинго', emoji: '🦩', rate: 96, colorA:'#fb7185', colorB:'#db2777' }
       ]
     }
   ];
@@ -150,5 +150,34 @@
     bonus: 450
   };
 
-window.JV_DATA = { CFG, LINES, PROGRESSION, STORE_BASE_PRICES, getLine, getTier, canUpgrade, unlockLabel };
+
+
+// Educational facts shown ONLY on merge (modal card).
+// Keys should match lineId. If missing, FACTS.default is used.
+const FACTS = {
+  // Future medical lineIds (when you rename content)
+  first_aid: [
+    { title: 'Первая помощь', text: 'При переломах фиксируют два сустава, чтобы кость не двигалась и боль была меньше.' },
+    { title: 'Первая помощь', text: 'Кровотечение останавливают давящей повязкой: так сосуды сжимаются и кровь идёт медленнее.' },
+    { title: 'Первая помощь', text: 'Пульс считают не только “есть/нет”, а чтобы понимать, как тело реагирует на стресс и нагрузку.' },
+  ],
+  dentistry: [
+    { title: 'Стоматология', text: 'Кариес — это не “дырка сама по себе”, а работа бактерий, которым нравится сладкое.' },
+    { title: 'Стоматология', text: 'Чистка зубов вечером важнее, чем кажется: ночью слюны меньше, бактерии активнее.' },
+    { title: 'Стоматология', text: 'Налёт — это “дом” для бактерий. Щётка убирает дом, а паста помогает закрепить результат.' },
+  ],
+  ent: [
+    { title: 'ЛОР и инфекции', text: 'Температура — это способ организма мешать микробам размножаться слишком быстро.' },
+    { title: 'ЛОР и инфекции', text: 'Дышать носом полезно: воздух согревается и очищается, прежде чем попасть в лёгкие.' },
+    { title: 'ЛОР и инфекции', text: 'Мы моем руки, потому что микробы любят “переезды” с поверхности на лицо и еду.' },
+  ],
+  // Fallback for current build (пока lineId ещё “про зверей”)
+  default: [
+    { title: 'Мини‑факт', text: 'Врач — это не “лечит таблетками”, а думает: что случилось, почему и как помочь безопасно.' },
+    { title: 'Мини‑факт', text: 'Самый частый инструмент врача — вопросы. Сначала выясняем, что происходит, потом действуем.' },
+    { title: 'Мини‑факт', text: 'Рейтинг клиники растёт от опыта: чем больше похожих случаев ты решаешь, тем легче сложные.' },
+  ],
+};
+
+window.JV_DATA = { CFG, LINES, PROGRESSION, STORE_BASE_PRICES, FACTS, getLine, getTier, canUpgrade, unlockLabel };
 })();

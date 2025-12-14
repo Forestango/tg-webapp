@@ -1,8 +1,19 @@
 // Game logic: spawn, merge->xp->level, rewards, locked cells
 (() => {
   'use strict';
-  const { CFG, PROGRESSION, getTier, canUpgrade, unlockLabel } = window.JV_DATA;
+  const { CFG, PROGRESSION, FACTS, getTier, canUpgrade, unlockLabel } = window.JV_DATA;
   const { newId } = window.JV_STATE;
+
+// Pick an educational fact for a merge. Cycles facts per lineId to avoid repeats.
+function pickMergeFact(state, lineId){
+  const pool = (FACTS && (FACTS[lineId] || FACTS.default)) || [];
+  if (!pool.length) return null;
+  if (!state.factCursor || typeof state.factCursor !== 'object') state.factCursor = {};
+  const idx = Number.isFinite(state.factCursor[lineId]) ? state.factCursor[lineId] : 0;
+  const fact = pool[idx % pool.length];
+  state.factCursor[lineId] = idx + 1;
+  return fact || null;
+}
 
   const size = CFG.rows * CFG.cols;
 
@@ -44,10 +55,10 @@
   }
 
   function queueInfo(qItem){
-    if (!qItem) return { name: '—', emoji: '🐾', img: null, rate: 0 };
+    if (!qItem) return { name: '—', emoji: '🐾', rate: 0 };
     const t = getTier(qItem.lineId, qItem.tier);
-    if (!t) return { name: '—', emoji: '🐾', img: null, rate: 0 };
-    return { name: t.name, emoji: t.emoji, img: t.img ?? null, rate: t.rate };
+    if (!t) return { name: '—', emoji: '🐾', rate: 0 };
+    return { name: t.name, emoji: t.emoji, rate: t.rate };
   }
 
   function rollUnlockedLine(state){
@@ -250,6 +261,18 @@
         const next = getTier(src.lineId, src.tier + 1);
         ui.toast?.(`Слияние! ${next?.emoji ?? '✨'} ${next?.name ?? ''}  (+${gain} XP)`);
         ui.haptic?.('medium');
+
+// Educational fact (shown ONLY on merge)
+const fact = pickMergeFact(state, src.lineId);
+if (fact){
+  const safeTitle = fact.title ?? 'Факт';
+  const safeText = fact.text ?? '';
+  ui.queuePopup?.({
+    title: safeTitle,
+    body: `<div class="factCard"><div class="factCard__text">${safeText}</div></div>`,
+    okText: 'Понятно'
+  });
+}
 
         checkLevelUps(state, ui);
         return;
