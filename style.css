@@ -1030,3 +1030,25 @@ html, body{
   height: auto !important;
   aspect-ratio: auto !important;
 }
+
+
+/* --- Merge fact card (modal content) --- */
+.factMedia{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 12px;
+}
+.factMedia__img{
+  width: min(220px, 72vw);
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+}
+.factCard__text{
+  font-size: 14px;
+  line-height: 1.35;
+}
+

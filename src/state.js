@@ -40,16 +40,17 @@
       // settings
       settings: { sound: true, haptics: true },
 
+      // merge facts rotation
+      factIndex: 0,
+
+
       // gifts
       giftNextFreeAt: 0,
       giftPityRare: 0,
       giftPityLegend: 0,
 
       // pending UI events
-      pendingPopups: [],            // {title, body}
-
-      // merge fact cards (educational popups) rotation index
-      factIndex: 0
+      pendingPopups: []             // {title, body}
     };
   }
 
@@ -59,9 +60,9 @@
     if (!Array.isArray(state.queue)) state.queue = [];
     if (!Array.isArray(state.unlockedLines)) state.unlockedLines = [];
     if (!Number.isFinite(state.unlockedBottomCells)) state.unlockedBottomCells = 0;
+    if (!Number.isFinite(state.factIndex)) state.factIndex = 0;
 
     if (!Number.isFinite(state.bestIncomePerSec)) state.bestIncomePerSec = 0;
-    if (!Number.isFinite(state.factIndex)) state.factIndex = 0;
     // Ensure at least one unlocked line at start
     if (state.unlockedLines.length === 0){
       // will be filled by progression init
