@@ -158,20 +158,24 @@
       </section>
     </main>
 
-    <nav class="tabbar" aria-label="Нижнее меню">
-      <button class="tab tab--active" data-tab="home" type="button">
-        <span class="tab__i">🏥</span><span class="tab__t">Главная</span>
-      </button>
-      <button class="tab" data-tab="store" type="button">
-        <span class="tab__i">🛒</span><span class="tab__t">Магазин</span>
-      </button>
-      <button class="tab" data-tab="gifts" type="button">
-        <span class="tab__i">🧰</span><span class="tab__t">Оборудование</span>
-      </button>
-      <button class="tab" data-tab="settings" type="button">
-        <span class="tab__i">⚙️</span><span class="tab__t">Настройки</span>
-      </button>
-    </nav>
+<nav class="tabbar tabbar--icons" aria-label="Нижнее меню">
+  <button class="tab tab--icon tab--home tab--active" data-tab="home" type="button" aria-label="Главная">
+    <span class="tab__mask" aria-hidden="true"></span>
+    <span class="sr-only">Главная</span>
+  </button>
+  <button class="tab tab--icon tab--store" data-tab="store" type="button" aria-label="Магазин">
+    <span class="tab__mask" aria-hidden="true"></span>
+    <span class="sr-only">Магазин</span>
+  </button>
+  <button class="tab tab--icon tab--equip" data-tab="gifts" type="button" aria-label="Оборудование">
+    <span class="tab__mask" aria-hidden="true"></span>
+    <span class="sr-only">Оборудование</span>
+  </button>
+  <button class="tab tab--icon tab--settings" data-tab="settings" type="button" aria-label="Настройки">
+    <span class="tab__mask" aria-hidden="true"></span>
+    <span class="sr-only">Настройки</span>
+  </button>
+</nav>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
   </div>
