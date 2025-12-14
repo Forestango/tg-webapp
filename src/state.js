@@ -46,7 +46,10 @@
       giftPityLegend: 0,
 
       // pending UI events
-      pendingPopups: []             // {title, body}
+      pendingPopups: [],            // {title, body}
+
+      // merge fact cards (educational popups) rotation index
+      factIndex: 0
     };
   }
 
@@ -58,6 +61,7 @@
     if (!Number.isFinite(state.unlockedBottomCells)) state.unlockedBottomCells = 0;
 
     if (!Number.isFinite(state.bestIncomePerSec)) state.bestIncomePerSec = 0;
+    if (!Number.isFinite(state.factIndex)) state.factIndex = 0;
     // Ensure at least one unlocked line at start
     if (state.unlockedLines.length === 0){
       // will be filled by progression init

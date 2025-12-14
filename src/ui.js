@@ -278,18 +278,20 @@
       const item = popupQueue.shift();
       if (!item) return;
       popupOpen = true;
-      elModalTitle.textContent = item.title;
-      elModalBody.innerHTML = item.body;
+      elModalTitle.textContent = item.title ?? '';
+      elModalBody.innerHTML = item.body ?? '';
+      if (elModalOk) elModalOk.textContent = item.okText ?? 'Ок';
       elModal.classList.remove('modal--hidden');
     }
 
-    function closePopup(){
+function closePopup(){
       popupOpen = false;
       elModal.classList.add('modal--hidden');
       openPopupNext();
     }
-    elModalOk?.addEventListener('click', closePopup);
-    elModal?.querySelector('.modal__backdrop')?.addEventListener('click', closePopup);
+    // Use bindTap so modal works on iOS Telegram (click can be swallowed)
+    bindTap(elModalOk, closePopup);
+    bindTap(elModal?.querySelector('.modal__backdrop'), closePopup);
 
     function queuePopup(p){
       popupQueue.push(p);

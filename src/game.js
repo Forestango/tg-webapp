@@ -1,14 +1,28 @@
 // Game logic: spawn, merge->xp->level, rewards, locked cells
 (() => {
   'use strict';
-  const { CFG, PROGRESSION, getTier, canUpgrade, unlockLabel } = window.JV_DATA;
+  const { CFG, PROGRESSION, getTier, canUpgrade, unlockLabel, MERGE_FACTS } = window.JV_DATA;
   const { newId } = window.JV_STATE;
 
   const size = CFG.rows * CFG.cols;
 
   function randInt(n){ return Math.floor(Math.random() * n); }
 
-  function xpNeed(level){
+  
+  function mergeFactNext(state){
+    if (!Array.isArray(MERGE_FACTS) || MERGE_FACTS.length === 0) return null;
+    const idx = (Number.isFinite(state.factIndex) ? state.factIndex : 0) % MERGE_FACTS.length;
+    state.factIndex = (Number.isFinite(state.factIndex) ? state.factIndex : 0) + 1;
+    return MERGE_FACTS[idx];
+  }
+
+  function queueMergeFact(state, ui){
+    const fact = mergeFactNext(state);
+    if (!fact) return;
+    ui.queuePopup?.({ title: fact.title ?? 'Факт', body: fact.body ?? '', okText: 'Понятно' });
+  }
+
+function xpNeed(level){
     return Math.max(20, Math.round(CFG.xpNeedBase * Math.pow(level, CFG.xpNeedPow)));
   }
 
@@ -252,6 +266,7 @@
         ui.haptic?.('medium');
 
         checkLevelUps(state, ui);
+        queueMergeFact(state, ui);
         return;
       } else {
         ui.toast?.('Максимальная редкость');
