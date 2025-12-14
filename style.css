@@ -933,15 +933,100 @@ html, body{
 }
 
 
-/* Educational fact card inside modal */
-.factCard{
-  display:block;
-  padding: 4px 2px;
-  line-height: 1.35;
-  font-size: 14px;
-  color: rgba(255,255,255,.92);
+/* === Pet images (placeholders) === */
+.animal__img{
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,.18));
+  pointer-events: none;
+  user-select: none;
 }
-.factCard__text{
-  font-size: 14px;
-  color: rgba(255,255,255,.9);
+.heroCard__icon .petIcon{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  display: block;
+}
+
+/* === PATCH: Full-tile pet artwork + compact tiles (hide names) === */
+.animal{
+  overflow:hidden;
+  /* keep drag on the whole tile, children should not steal events */
+}
+.animal__name{ display:none !important; }
+
+/* When using image-based pets */
+.animal__img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover; /* fills the card; change to contain if you want no cropping */
+  border-radius: inherit;
+  pointer-events:none;
+  user-select:none;
+}
+
+/* Emoji fallback stays centered */
+.animal__emoji{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-55%);
+  pointer-events:none;
+}
+
+/* Income badge pinned to bottom */
+.animal__rate{
+  position:absolute;
+  left:50%;
+  bottom:8px;
+  transform:translateX(-50%);
+  pointer-events:none;
+}
+
+/* Next-patient icon image */
+.heroCard__icon .petIcon{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius: inherit;
+  pointer-events:none;
+  user-select:none;
+}
+
+/* FIX: rate pill should be bottom, horizontal (no wrapping) */
+.animal{
+  position: absolute; /* keep as-is if already absolute; ensures positioned children anchor */
+}
+
+.animal__rate{
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 10px !important;
+  transform: translateX(-50%) !important;
+
+  /* make it a horizontal pill */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+
+  padding: 4px 10px !important;
+  max-width: calc(100% - 16px) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+
+  border-radius: 999px !important;
+}
+
+/* If something in your custom patch set a fixed size / round badge — neutralize it */
+.animal__rate{
+  width: auto !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
 }
