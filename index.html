@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Juny Veterinarian</title>
+  <title>Юный доктор: мини‑клиника</title>
   <link rel="stylesheet" href="./style.css" />
   <!-- Telegram Mini App (optional). Works fine without Telegram. -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -13,7 +13,7 @@
     <header class="topbar">
       <div class="avatar" aria-hidden="true"></div>
       <div class="topbar__title">
-        <div class="brand">Juny Veterinarian</div>
+        <div class="brand">Юный доктор</div>
         <div class="sub">Мини‑клиника · поле 4×4</div>
       </div>
     </header>
@@ -35,8 +35,8 @@
             </div>
           </div>
 
-          <div class="chip" title="Монеты">
-            <span class="chip__icon">🪙</span>
+          <div class="chip" title="Рейтинг клиники">
+            <span class="chip__icon">⭐️</span>
             <span id="bonusPoints">0</span>
           </div>
 
@@ -60,7 +60,7 @@
           </div>
 
           <button id="placeBtn" class="heroBtn" type="button">
-            Положить<br/>на койку
+            Принять<br/>в клинику
           </button>
         </div>
 <div class="hint">
@@ -68,11 +68,11 @@
         </div>
       
 
-        <div id="trashDrop" class="trashDrop" aria-label="Корзина для продажи">
+        <div id="trashDrop" class="trashDrop" aria-label="Зона выписки">
           <div class="trashDrop__icon">🗑️</div>
           <div class="trashDrop__text">
-            <div class="trashDrop__title">Продать</div>
-            <div class="trashDrop__subtitle">Сбрось сюда питомца · вернём 1/3 стоимости</div>
+            <div class="trashDrop__title">Выписать</div>
+            <div class="trashDrop__subtitle">Сбрось сюда пациента · вернём 1/3 рейтинга</div>
           </div>
         </div>
 </section>
@@ -80,8 +80,8 @@
       <!-- STORE -->
       <section id="page-store" class="page">
         <div class="panel">
-          <h2>Магазин зверюшек</h2>
-          <p>Покупай пациентов за <b>🪙 бонусные очки</b>. Купленный пациент попадёт в очередь (или сразу на свободную койку).</p>
+          <h2>Магазин клиники</h2>
+          <p>Используй <b>⭐ рейтинг клиники</b>, чтобы ускорять прогресс. Награды помогут быстрее принимать пациентов и объединять кейсы.</p>
           <div class="cards">
             <div class="card">
               <div class="card__title">Лесной пациент</div>
@@ -113,7 +113,7 @@
       <!-- GIFTS --><!-- GIFTS -->
       <section id="page-gifts" class="page">
         <div class="panel">
-          <h2>Подарки</h2>
+          <h2>Оборудование</h2>
           <p class="muted">Крути подарки: бесплатно раз в день или за монеты.</p>
 
           <div class="giftRoll">
@@ -166,7 +166,7 @@
         <span class="tab__i">🛒</span><span class="tab__t">Магазин</span>
       </button>
       <button class="tab" data-tab="gifts" type="button">
-        <span class="tab__i">🎁</span><span class="tab__t">Подарки</span>
+        <span class="tab__i">🧰</span><span class="tab__t">Оборудование</span>
       </button>
       <button class="tab" data-tab="settings" type="button">
         <span class="tab__i">⚙️</span><span class="tab__t">Настройки</span>
