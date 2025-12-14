@@ -47,7 +47,7 @@
     if (!qItem) return { name: '—', emoji: '🐾', img: null, rate: 0 };
     const t = getTier(qItem.lineId, qItem.tier);
     if (!t) return { name: '—', emoji: '🐾', img: null, rate: 0 };
-    return { name: t.name, emoji: t.emoji, img: t.img, rate: t.rate };
+    return { name: t.name, emoji: t.emoji, img: t.img ?? null, rate: t.rate };
   }
 
   function rollUnlockedLine(state){

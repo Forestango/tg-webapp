@@ -24,7 +24,7 @@
 
     // Gifts
     giftPaidBaseCost: 600,       // fallback if income=0
-    giftPaidCostSeconds: 600,     // paid spin costs ~N seconds of current income
+    giftPaidCostSeconds: 60,     // paid spin costs ~N seconds of current income
     giftFreeEverySec: 86400,     // once per day
     giftPityRare: 7,             // guarantee rare after N without rare
     giftPityLegend: 20,          // guarantee legend after N without legend
@@ -50,51 +50,51 @@
     {
       id: 'cat_siberian',
       tiers: [
-        { name: 'Сибирская кошка', emoji: '🐱', rate: 1, colorA:'#60a5fa', colorB:'#2563eb' },
-        { name: 'Британец', emoji: '🐱', rate: 2, colorA:'#93c5fd', colorB:'#4f46e5' },
-        { name: 'Мейн-кун', emoji: '🐱', rate: 3, colorA:'#fb7185', colorB:'#f43f5e' },
-        { name: 'Сфинкс', emoji: '🐱', rate: 5, colorA:'#fda4af', colorB:'#fb7185' },
-        { name: 'Снежный барс', emoji: '🐆', rate: 8, colorA:'#cbd5e1', colorB:'#64748b' }
+        { name: 'Сибирская кошка', emoji: '🐱', img: 'assets/pets/cat_siberian_0.png', rate: 1, colorA:'#60a5fa', colorB:'#2563eb' },
+        { name: 'Британец', emoji: '🐱', img: 'assets/pets/cat_siberian_1.png', rate: 2, colorA:'#93c5fd', colorB:'#4f46e5' },
+        { name: 'Мейн-кун', emoji: '🐱', img: 'assets/pets/cat_siberian_2.png', rate: 4, colorA:'#fb7185', colorB:'#f43f5e' },
+        { name: 'Сфинкс', emoji: '🐱', img: 'assets/pets/cat_siberian_3.png', rate: 8, colorA:'#fda4af', colorB:'#fb7185' },
+        { name: 'Снежный барс', emoji: '🐆', img: 'assets/pets/cat_siberian_4.png', rate: 16, colorA:'#cbd5e1', colorB:'#64748b' }
       ]
     },
     {
       id: 'dog_husky',
       tiers: [
-        { name: 'Хаски', emoji: '🐶', rate: 1, colorA:'#fbbf24', colorB:'#f97316' },
-        { name: 'Корги', emoji: '🐶', rate: 2, colorA:'#34d399', colorB:'#10b981' },
-        { name: 'Такса', emoji: '🐶', rate: 3, colorA:'#a78bfa', colorB:'#6d28d9' },
-        { name: 'Самоед', emoji: '🐶', rate: 5, colorA:'#93c5fd', colorB:'#6366f1' },
-        { name: 'Лабрадор', emoji: '🐕', rate: 8, colorA:'#fbbf24', colorB:'#ef4444' }
+        { name: 'Хаски', emoji: '🐶', img: 'assets/pets/dog_husky_0.png', rate: 1, colorA:'#fbbf24', colorB:'#f97316' },
+        { name: 'Корги', emoji: '🐶', img: 'assets/pets/dog_husky_1.png', rate: 2, colorA:'#34d399', colorB:'#10b981' },
+        { name: 'Такса', emoji: '🐶', img: 'assets/pets/dog_husky_2.png', rate: 4, colorA:'#a78bfa', colorB:'#6d28d9' },
+        { name: 'Самоед', emoji: '🐶', img: 'assets/pets/dog_husky_3.png', rate: 8, colorA:'#93c5fd', colorB:'#6366f1' },
+        { name: 'Лабрадор', emoji: '🐕', img: 'assets/pets/dog_husky_4.png', rate: 16, colorA:'#fbbf24', colorB:'#ef4444' }
       ]
     },
     {
       id: 'rodent_hamster',
       tiers: [
-        { name: 'Хомяк', emoji: '🐹', rate: 2, colorA:'#86efac', colorB:'#22c55e' },
-        { name: 'Морская свинка', emoji: '🐹', rate: 3, colorA:'#7ee2ff', colorB:'#2ec3ff' },
-        { name: 'Шиншилла', emoji: '🐭', rate: 5, colorA:'#cbd5e1', colorB:'#64748b' },
-        { name: 'Кролик', emoji: '🐰', rate: 8, colorA:'#fb7185', colorB:'#f43f5e' },
-        { name: 'Капибара', emoji: '🦫', rate: 13, colorA:'#f59e0b', colorB:'#ef4444' }
+        { name: 'Хомяк', emoji: '🐹', img: 'assets/pets/rodent_hamster_0.png', rate: 2, colorA:'#86efac', colorB:'#22c55e' },
+        { name: 'Морская свинка', emoji: '🐹', img: 'assets/pets/rodent_hamster_1.png', rate: 4, colorA:'#7ee2ff', colorB:'#2ec3ff' },
+        { name: 'Шиншилла', emoji: '🐭', img: 'assets/pets/rodent_hamster_2.png', rate: 8, colorA:'#cbd5e1', colorB:'#64748b' },
+        { name: 'Кролик', emoji: '🐰', img: 'assets/pets/rodent_hamster_3.png', rate: 16, colorA:'#fb7185', colorB:'#f43f5e' },
+        { name: 'Капибара', emoji: '🦫', img: 'assets/pets/rodent_hamster_4.png', rate: 32, colorA:'#f59e0b', colorB:'#ef4444' }
       ]
     },
     {
       id: 'wild_fox',
       tiers: [
-        { name: 'Лиса', emoji: '🦊', rate: 4, colorA:'#ffb020', colorB:'#ff7a18' },
-        { name: 'Фенек', emoji: '🦊', rate: 6, colorA:'#fbbf24', colorB:'#f97316' },
-        { name: 'Енот', emoji: '🦝', rate: 9, colorA:'#34d399', colorB:'#10b981' },
-        { name: 'Панда', emoji: '🐼', rate: 13, colorA:'#cbd5e1', colorB:'#64748b' },
-        { name: 'Коала', emoji: '🐨', rate: 19, colorA:'#a3e635', colorB:'#16a34a' }
+        { name: 'Лиса', emoji: '🦊', img: 'assets/pets/wild_fox_0.png', rate: 4, colorA:'#ffb020', colorB:'#ff7a18' },
+        { name: 'Фенек', emoji: '🦊', img: 'assets/pets/wild_fox_1.png', rate: 8, colorA:'#fbbf24', colorB:'#f97316' },
+        { name: 'Енот', emoji: '🦝', img: 'assets/pets/wild_fox_2.png', rate: 12, colorA:'#34d399', colorB:'#10b981' },
+        { name: 'Панда', emoji: '🐼', img: 'assets/pets/wild_fox_3.png', rate: 18, colorA:'#cbd5e1', colorB:'#64748b' },
+        { name: 'Коала', emoji: '🐨', img: 'assets/pets/wild_fox_4.png', rate: 28, colorA:'#a3e635', colorB:'#16a34a' }
       ]
     },
     {
       id: 'weird_axolotl',
       tiers: [
-        { name: 'Аксолотль', emoji: '🫧', rate: 6, colorA:'#fda4af', colorB:'#fb7185' },
-        { name: 'Осьминожка', emoji: '🐙', rate: 9, colorA:'#a78bfa', colorB:'#6d28d9' },
-        { name: 'Иглобрюх', emoji: '🐡', rate: 14, colorA:'#7ee2ff', colorB:'#2ec3ff' },
-        { name: 'Лемур', emoji: '🐒', rate: 22, colorA:'#fbbf24', colorB:'#f97316' },
-        { name: 'Фламинго', emoji: '🦩', rate: 35, colorA:'#fb7185', colorB:'#db2777' }
+        { name: 'Аксолотль', emoji: '🫧', img: 'assets/pets/weird_axolotl_0.png', rate: 6, colorA:'#fda4af', colorB:'#fb7185' },
+        { name: 'Осьминожка', emoji: '🐙', img: 'assets/pets/weird_axolotl_1.png', rate: 12, colorA:'#a78bfa', colorB:'#6d28d9' },
+        { name: 'Иглобрюх', emoji: '🐡', img: 'assets/pets/weird_axolotl_2.png', rate: 24, colorA:'#7ee2ff', colorB:'#2ec3ff' },
+        { name: 'Лемур', emoji: '🐒', img: 'assets/pets/weird_axolotl_3.png', rate: 48, colorA:'#fbbf24', colorB:'#f97316' },
+        { name: 'Фламинго', emoji: '🦩', img: 'assets/pets/weird_axolotl_4.png', rate: 96, colorA:'#fb7185', colorB:'#db2777' }
       ]
     }
   ];

@@ -410,22 +410,10 @@ drag.ghost = makeGhost(animalEl);
       const next = state.queue[0] || null;
       const qi = queueInfo(next);
       if (elNextIcon){
-        // Optional: show image if provided; fallback to emoji if missing/failed.
-        elNextIcon.textContent = '';
-        if (qi && qi.img){
-          const img = document.createElement('img');
-          img.className = 'petIcon';
-          img.src = qi.img;
-          img.alt = '';
-          img.draggable = false;
-          img.style.width = '100%';
-          img.style.height = '100%';
-          img.style.objectFit = 'contain';
-          img.style.pointerEvents = 'none';
-          img.onerror = () => { elNextIcon.textContent = qi.emoji || '🐾'; };
-          elNextIcon.appendChild(img);
+        if (qi.img){
+          elNextIcon.innerHTML = `<img class="petIcon" src="${qi.img}" alt="">`;
         } else {
-          elNextIcon.textContent = (qi && qi.emoji) ? qi.emoji : '🐾';
+          elNextIcon.textContent = qi.emoji;
         }
       }
       if (elNextName) elNextName.textContent = qi.name;
@@ -522,21 +510,8 @@ drag.ghost = makeGhost(animalEl);
             const img = document.createElement('img');
             img.className = 'animal__img';
             img.src = tier.img;
-            img.alt = tier.name || '';
+            img.alt = tier?.name ?? '';
             img.draggable = false;
-            img.style.width = '44px';
-            img.style.height = '44px';
-            img.style.objectFit = 'contain';
-            img.style.pointerEvents = 'none';
-            img.style.userSelect = 'none';
-            img.onerror = () => {
-              // Fallback to emoji if image missing
-              if (!img.parentNode) return;
-              const em = document.createElement('div');
-              em.className = 'animal__emoji';
-              em.textContent = tier?.emoji ?? '🐾';
-              img.parentNode.replaceChild(em, img);
-            };
             iconEl = img;
           } else {
             const emoji = document.createElement('div');
