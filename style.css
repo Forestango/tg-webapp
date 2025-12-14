@@ -997,3 +997,36 @@ html, body{
   pointer-events:none;
   user-select:none;
 }
+
+/* FIX: rate pill should be bottom, horizontal (no wrapping) */
+.animal{
+  position: absolute; /* keep as-is if already absolute; ensures positioned children anchor */
+}
+
+.animal__rate{
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 10px !important;
+  transform: translateX(-50%) !important;
+
+  /* make it a horizontal pill */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+
+  padding: 4px 10px !important;
+  max-width: calc(100% - 16px) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+
+  border-radius: 999px !important;
+}
+
+/* If something in your custom patch set a fixed size / round badge — neutralize it */
+.animal__rate{
+  width: auto !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
+}
