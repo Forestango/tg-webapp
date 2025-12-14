@@ -2,6 +2,11 @@
 (() => {
   'use strict';
 
+  // Safety: if app.js is accidentally included twice (easy to do on GitHub Pages),
+  // don't start 2 RAF loops / autosave timers. That causes UI flicker.
+  if (window.__JV_APP_BOOTED) return;
+  window.__JV_APP_BOOTED = true;
+
   // Reliable taps for iOS Telegram: prefer pointerup over click
   function bindTap(el, fn){
     if (!el) return;
@@ -244,6 +249,12 @@
 
   // Main loop
   let last = performance.now();
+  // UI is rebuilt with DOM each render (board, cards, etc.).
+  // Rendering at 60fps is overkill and makes images blink (img loads async, then DOM gets replaced).
+  // Keep game tick at 60fps, but throttle UI repaint.
+  const UI_FPS = 10;
+  const UI_DT = 1 / UI_FPS;
+  let uiAcc = UI_DT;
   function loop(){
     const now = performance.now();
     const dt = (now - last) / 1000;
@@ -251,7 +262,12 @@
 
     GAME.ensureSpawn(state, ui);
     GAME.tick(state, dt);
-    ui.render();
+
+    uiAcc += dt;
+    if (uiAcc >= UI_DT){
+      uiAcc = 0;
+      ui.render();
+    }
 
     requestAnimationFrame(loop);
   }
