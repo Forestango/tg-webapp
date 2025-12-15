@@ -16,6 +16,9 @@
       // money (монеты). Earned per second from animals, used in store.
       bonusPoints: 0,
 
+
+      // economy helper: highest coins/sec achieved (for fair gift pricing)
+      bestIncomePerSec: 0,
       // leveling
       level: 1,
       xp: 0,
@@ -37,6 +40,10 @@
       // settings
       settings: { sound: true, haptics: true },
 
+      // merge facts rotation
+      factIndex: 0,
+
+
       // gifts
       giftNextFreeAt: 0,
       giftPityRare: 0,
@@ -49,28 +56,13 @@
 
   function sanitize(state){
     // Ensure shapes
-    if (!Array.isArray(state.board) || state.board.length !== size){
-  // Try to migrate old board sizes (e.g., 4x4 -> 3x3) instead of wiping progress
-  const old = Array.isArray(state.board) ? state.board : null;
-  if (old && old.length === 16 && size === 9){
-    // map top-left 3x3 from 4x4
-    const mapped = emptyBoard();
-    for (let r=0;r<3;r++){
-      for (let c=0;c<3;c++){
-        mapped[r*3+c] = old[r*4+c] || null;
-      }
-    }
-    state.board = mapped;
-  } else {
-    state.board = emptyBoard();
-  }
-}
-
+    if (!Array.isArray(state.board) || state.board.length !== size) state.board = emptyBoard();
     if (!Array.isArray(state.queue)) state.queue = [];
     if (!Array.isArray(state.unlockedLines)) state.unlockedLines = [];
     if (!Number.isFinite(state.unlockedBottomCells)) state.unlockedBottomCells = 0;
-    state.unlockedBottomCells = Math.max(0, Math.min(CFG.cols, Math.floor(state.unlockedBottomCells)));
+    if (!Number.isFinite(state.factIndex)) state.factIndex = 0;
 
+    if (!Number.isFinite(state.bestIncomePerSec)) state.bestIncomePerSec = 0;
     // Ensure at least one unlocked line at start
     if (state.unlockedLines.length === 0){
       // will be filled by progression init

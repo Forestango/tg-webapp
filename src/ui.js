@@ -16,11 +16,6 @@
 
   function initUI(state, handlers){
     const elBoard = document.getElementById('board');
-
-    // Set board grid to match CFG (safe if CSS mismatches)
-    elBoard.style.gridTemplateColumns = `repeat(${CFG.cols}, 1fr)`;
-    elBoard.style.gridTemplateRows = `repeat(${CFG.rows}, 1fr)`;
-
     const elBonusPoints = document.getElementById('bonusPoints');
 
     const elLevel = document.getElementById('level');
@@ -30,6 +25,69 @@
     const elNextIcon = document.getElementById('nextIcon');
     const elNextName = document.getElementById('nextName');
     const elSpawnIn = document.getElementById('spawnIn');
+
+    // ---- Images + stable board DOM (prevents <img> blinking) ----
+    let nextIconKey = '';
+
+    let boardBuilt = false;
+    /** @type {{cell:HTMLElement, animal:HTMLElement, img:HTMLImageElement, emoji:HTMLElement, name:HTMLElement, rate:HTMLElement, key:string}[]} */
+    let boardSlots = [];
+
+    function ensureBoardBuilt(){
+      if (boardBuilt || !elBoard) return;
+      elBoard.innerHTML = '';
+      boardSlots = [];
+
+      for (let i=0;i<size;i++){
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.dataset.idx = String(i);
+
+        const animal = document.createElement('div');
+        animal.className = 'animal';
+        animal.dataset.idx = String(i);
+        animal.draggable = false;
+        animal.style.display = 'none';
+
+        // icon: prefer image if available, fallback to emoji
+        const img = document.createElement('img');
+        img.className = 'animal__img';
+        img.alt = '';
+        img.draggable = false;
+        img.style.display = 'none';
+
+        const emoji = document.createElement('div');
+        emoji.className = 'animal__emoji';
+
+        const name = document.createElement('div');
+        name.className = 'animal__name';
+
+        const rate = document.createElement('div');
+        rate.className = 'animal__rate';
+
+        animal.appendChild(img);
+        animal.appendChild(emoji);
+        animal.appendChild(name);
+        animal.appendChild(rate);
+
+        animal.addEventListener('click', () => {
+          const idx = Number(animal.dataset.idx);
+          if (!Number.isFinite(idx)) return;
+          const a = state.board[idx];
+          if (!a) return;
+          const tier = getTier(a.lineId, a.tier);
+          if (!tier) return;
+          toast(`${tier.emoji ?? ''} ${tier.name} · +${tier.rate}/с`);
+        });
+
+        cell.appendChild(animal);
+        elBoard.appendChild(cell);
+
+        boardSlots.push({ cell, animal, img, emoji, name, rate, key: '' });
+      }
+
+      boardBuilt = true;
+    }
 
     const elBonusBtn = document.getElementById('bonusBtn');
 
@@ -220,8 +278,12 @@
       const item = popupQueue.shift();
       if (!item) return;
       popupOpen = true;
-      elModalTitle.textContent = item.title;
-      elModalBody.innerHTML = item.body;
+
+      elModalTitle.textContent = item.title ?? '';
+      const imgHtml = item.img ? `<div class="factMedia"><img class="factMedia__img" src="${item.img}" alt="" onerror="this.closest('.factMedia') && (this.closest('.factMedia').style.display='none');"></div>` : '';
+      elModalBody.innerHTML = imgHtml + (item.body ?? '');
+      if (elModalOk) elModalOk.textContent = item.okText ?? 'Ок';
+
       elModal.classList.remove('modal--hidden');
     }
 
@@ -232,6 +294,9 @@
     }
     elModalOk?.addEventListener('click', closePopup);
     elModal?.querySelector('.modal__backdrop')?.addEventListener('click', closePopup);
+    // iOS Telegram: do not rely on click
+    bindTap(elModalOk, closePopup);
+    bindTap(document.querySelector('.modal__backdrop'), closePopup);
 
     function queuePopup(p){
       popupQueue.push(p);
@@ -414,7 +479,17 @@ drag.ghost = makeGhost(animalEl);
       // Next patient
       const next = state.queue[0] || null;
       const qi = queueInfo(next);
-      if (elNextIcon) elNextIcon.textContent = qi.emoji;
+      if (elNextIcon){
+        const k = qi.img || qi.emoji || '';
+        if (k !== nextIconKey){
+          if (qi.img){
+            elNextIcon.innerHTML = `<img class="petIcon" src="${qi.img}" alt="">`;
+          } else {
+            elNextIcon.textContent = qi.emoji;
+          }
+          nextIconKey = k;
+        }
+      }
       if (elNextName) elNextName.textContent = qi.name;
 
       // Spawn timer
@@ -478,57 +553,55 @@ drag.ghost = makeGhost(animalEl);
         return false;
       };
 
-      elBoard.innerHTML = '';
+      // Board (do NOT rebuild DOM each frame — it makes <img> blink)
+      ensureBoardBuilt();
       for (let i=0;i<size;i++){
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.dataset.idx = String(i);
+        const slot = boardSlots[i];
+        if (!slot) continue;
 
-        if (!isCellUnlocked(state, i)) cell.classList.add('cell--locked');
-        if (isFresh(i,'merge')) cell.classList.add('cell--merge');
-        if (isFresh(i,'place')) cell.classList.add('cell--place');
+        const unlocked = isCellUnlocked(state, i);
+        slot.cell.classList.toggle('cell--locked', !unlocked);
+        slot.cell.classList.toggle('cell--merge', isFresh(i,'merge'));
+        slot.cell.classList.toggle('cell--place', isFresh(i,'place'));
 
         const a = state.board[i];
-        if (a){
-          const tier = getTier(a.lineId, a.tier);
-          const animal = document.createElement('div');
-          animal.className = 'animal';
-          animal.dataset.idx = String(i);
-          animal.draggable = false;
-
-          if (isFresh(i,'move') || isFresh(i,'place')) animal.classList.add('animal--pop');
-          if (isFresh(i,'merge')) animal.classList.add('animal--merge');
-
-          const gradA = tier?.colorA ?? '#60a5fa';
-          const gradB = tier?.colorB ?? '#2563eb';
-          animal.style.background =
-            `radial-gradient(240px 180px at 30% 25%, rgba(255,255,255,.32), transparent 55%), linear-gradient(135deg, ${gradA}, ${gradB})`;
-
-          const emoji = document.createElement('div');
-          emoji.className = 'animal__emoji';
-          emoji.textContent = tier?.emoji ?? '🐾';
-
-          const name = document.createElement('div');
-          name.className = 'animal__name';
-          name.textContent = tier?.name ?? 'Пациент';
-
-          const rate = document.createElement('div');
-          rate.className = 'animal__rate';
-          rate.textContent = `+${tier?.rate ?? 1}/с`;
-
-          animal.appendChild(emoji);
-          animal.appendChild(name);
-          animal.appendChild(rate);
-
-          animal.addEventListener('click', () => {
-            if (!tier) return;
-            toast(`${tier.emoji} ${tier.name} · +${tier.rate}/с`);
-          });
-
-          cell.appendChild(animal);
+        if (!a || !unlocked){
+          slot.animal.style.display = 'none';
+          slot.key = '';
+          continue;
         }
 
-        elBoard.appendChild(cell);
+        slot.animal.style.display = '';
+        // keep idx for drag
+        slot.animal.dataset.idx = String(i);
+
+        const tier = getTier(a.lineId, a.tier);
+
+        slot.animal.classList.toggle('animal--pop', isFresh(i,'move') || isFresh(i,'place'));
+        slot.animal.classList.toggle('animal--merge', isFresh(i,'merge'));
+
+        const gradA = tier?.colorA ?? '#60a5fa';
+        const gradB = tier?.colorB ?? '#2563eb';
+        slot.animal.style.background =
+          `radial-gradient(240px 180px at 30% 25%, rgba(255,255,255,.28) 0%, transparent 55%), linear-gradient(135deg, ${gradA}, ${gradB})`;
+
+        const k = `${a.lineId}:${a.tier}:${tier?.img || tier?.emoji || ''}`;
+        if (k !== slot.key){
+          if (tier?.img){
+            slot.img.src = tier.img;
+            slot.img.style.display = '';
+            slot.emoji.style.display = 'none';
+          } else {
+            slot.emoji.textContent = tier?.emoji ?? '🐾';
+            slot.emoji.style.display = '';
+            slot.img.style.display = 'none';
+          }
+
+          slot.name.textContent = tier?.name ?? 'Пациент';
+          slot.rate.textContent = `+${tier?.rate ?? 0}/с`;
+
+          slot.key = k;
+        }
       }
 
       // Store: dynamic prices scale with level
