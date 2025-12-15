@@ -3,8 +3,8 @@
   'use strict';
 
   const CFG = {
-    rows: 4,
-    cols: 4,
+    rows: 3,
+    cols: 3,
     // Spawn base interval. Can be temporarily reduced by rewards.
     spawnEverySec: 10,
     spawnQueueMax: 3,
@@ -37,21 +37,11 @@
     xpNeedPow: 1.35,
 
     // Locked bottom row (row index 3)
-    bottomRowIndex: 3,
-    bottomRowUnlockLevels: [3, 6, 10, 15], // unlock 1 cell each
+    bottomRowIndex: 2,
+    bottomRowUnlockLevels: [3, 6, 10], // unlock 1 cell each
 
     saveEveryMs: 5000,
-    storageKey: 'junyVet_miniclinic_3x3_spawnA_v1'
-
-    // Spawn pools by player level (3×3 баланс).
-    // LVL 1: only First Aid (cat_siberian)
-    // LVL 2: only Dentistry (dog_husky)
-    // LVL 3+: Dentistry + ENT (rodent_hamster) ~50/50
-    spawnPoolsByLevel: [
-      { from: 1, lines: ['cat_siberian'] },
-      { from: 2, lines: ['dog_husky'] },
-      { from: 3, lines: ['dog_husky', 'rodent_hamster'], weights: [50, 50] },
-    ],
+    storageKey: 'junyVet_vNext_level_rewards'
   };
 
   // Hidden internal “lines”. UI never shows categories.

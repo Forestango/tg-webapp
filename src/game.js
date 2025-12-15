@@ -62,55 +62,9 @@ const { newId } = window.JV_STATE;
   }
 
   function rollUnlockedLine(state){
-    const unlocked = state.unlockedLines || [];
-    if (unlocked.length === 0) return null;
-
-    const pools = CFG.spawnPoolsByLevel || null;
-    if (!pools || pools.length === 0){
-      return unlocked[randInt(unlocked.length)];
-    }
-
-    // pick last pool with from <= level
-    const lvl = state.level || 1;
-    let pool = null;
-    for (let i = 0; i < pools.length; i++){
-      if (lvl >= pools[i].from) pool = pools[i];
-    }
-    if (!pool || !pool.lines || pool.lines.length === 0){
-      return unlocked[randInt(unlocked.length)];
-    }
-
-    // Only spawn lines that are actually unlocked (prevents spawning locked content)
-    const candidates = pool.lines.filter(id => unlocked.includes(id));
-    if (candidates.length === 0){
-      return unlocked[randInt(unlocked.length)];
-    }
-
-    // Weighted or uniform
-    const w = Array.isArray(pool.weights) && pool.weights.length === pool.lines.length ? pool.weights : null;
-    if (!w){
-      return candidates[randInt(candidates.length)];
-    }
-
-    // Build aligned weights for filtered candidates
-    let sum = 0;
-    const cw = candidates.map(id => {
-      const idx = pool.lines.indexOf(id);
-      const ww = Math.max(0, Number(w[idx]) || 0);
-      sum += ww;
-      return ww;
-    });
-
-    if (sum <= 0){
-      return candidates[randInt(candidates.length)];
-    }
-
-    let r = Math.random() * sum;
-    for (let i = 0; i < candidates.length; i++){
-      r -= cw[i];
-      if (r <= 0) return candidates[i];
-    }
-    return candidates[candidates.length - 1];
+    const list = state.unlockedLines;
+    if (!list || list.length === 0) return null;
+    return list[randInt(list.length)];
   }
 
   function rollAnimal(state){
