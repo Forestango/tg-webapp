@@ -56,10 +56,25 @@
 
   function sanitize(state){
     // Ensure shapes
-    if (!Array.isArray(state.board) || state.board.length !== size) state.board = emptyBoard();
-    if (!Array.isArray(state.queue)) state.queue = [];
+    const prevBoard = Array.isArray(state.board) ? state.board : null;
+if (!Array.isArray(state.board) || state.board.length !== size){
+  // Migration: 4×4 -> 3×3 keeps top-left 3×3.
+  if (prevBoard && prevBoard.length === 16 && size === 9 && CFG.rows === 3 && CFG.cols === 3){
+    const nb = emptyBoard();
+    for (let r=0;r<3;r++){
+      for (let c=0;c<3;c++){
+        nb[r*3 + c] = prevBoard[r*4 + c] || null;
+      }
+    }
+    state.board = nb;
+  } else {
+    state.board = emptyBoard();
+  }
+}
+if (!Array.isArray(state.queue)) state.queue = [];
     if (!Array.isArray(state.unlockedLines)) state.unlockedLines = [];
     if (!Number.isFinite(state.unlockedBottomCells)) state.unlockedBottomCells = 0;
+    state.unlockedBottomCells = Math.max(0, Math.min(CFG.cols, state.unlockedBottomCells));
     if (!Number.isFinite(state.factIndex)) state.factIndex = 0;
 
     if (!Number.isFinite(state.bestIncomePerSec)) state.bestIncomePerSec = 0;

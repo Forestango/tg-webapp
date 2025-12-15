@@ -3,8 +3,8 @@
   'use strict';
 
   const CFG = {
-    rows: 4,
-    cols: 4,
+    rows: 3,
+    cols: 3,
     // Spawn base interval. Can be temporarily reduced by rewards.
     spawnEverySec: 10,
     spawnQueueMax: 3,
@@ -37,8 +37,8 @@
     xpNeedPow: 1.35,
 
     // Locked bottom row (row index 3)
-    bottomRowIndex: 3,
-    bottomRowUnlockLevels: [3, 6, 10, 15], // unlock 1 cell each
+    bottomRowIndex: 2,
+    bottomRowUnlockLevels: [3, 6, 10], // unlock 1 cell each
 
     saveEveryMs: 5000,
     storageKey: 'junyVet_vNext_level_rewards'
