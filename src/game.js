@@ -2,18 +2,7 @@
 (() => {
   'use strict';
   const { CFG, PROGRESSION, getTier, canUpgrade, unlockLabel } = window.JV_DATA;
-  
-  function queueMergeFact(state, ui){
-    const facts = window.JV_DATA.MERGE_FACTS || [];
-    if (!facts.length) return;
-    const idx = (Number.isFinite(state.factIndex) ? state.factIndex : 0) % facts.length;
-    const f = facts[idx];
-    state.factIndex = idx + 1;
-    const body = `<div class="factCard__text">${f.text}</div>`;
-    ui.queuePopup?.({ title: f.title, body, img: f.img, okText: 'Понятно' });
-  }
-
-const { newId } = window.JV_STATE;
+  const { newId } = window.JV_STATE;
 
   const size = CFG.rows * CFG.cols;
 
@@ -33,14 +22,14 @@ const { newId } = window.JV_STATE;
     return CFG.spawnEverySec;
   }
 
-  function bottomRowStart(){ return CFG.bottomRowIndex * CFG.cols; } // 12
+  function bottomRowStart(){ return CFG.bottomRowIndex * CFG.cols; } // 6
   function isBottomRowIdx(idx){
     return idx >= bottomRowStart() && idx < bottomRowStart() + CFG.cols;
   }
   function isCellUnlocked(state, idx){
     if (!isBottomRowIdx(idx)) return true;
     // bottom row unlocks from left to right
-    const pos = idx - bottomRowStart(); // 0..3
+    const pos = idx - bottomRowStart(); // 0..2
     return pos < state.unlockedBottomCells;
   }
 
@@ -55,10 +44,10 @@ const { newId } = window.JV_STATE;
   }
 
   function queueInfo(qItem){
-    if (!qItem) return { name: '—', emoji: '🐾', img: null, rate: 0 };
+    if (!qItem) return { name: '—', emoji: '🐾', rate: 0 };
     const t = getTier(qItem.lineId, qItem.tier);
-    if (!t) return { name: '—', emoji: '🐾', img: null, rate: 0 };
-    return { name: t.name, emoji: t.emoji, img: t.img ?? null, rate: t.rate };
+    if (!t) return { name: '—', emoji: '🐾', rate: 0 };
+    return { name: t.name, emoji: t.emoji, rate: t.rate };
   }
 
   function rollUnlockedLine(state){
@@ -263,7 +252,6 @@ const { newId } = window.JV_STATE;
         ui.haptic?.('medium');
 
         checkLevelUps(state, ui);
-        queueMergeFact(state, ui);
         return;
       } else {
         ui.toast?.('Максимальная редкость');
